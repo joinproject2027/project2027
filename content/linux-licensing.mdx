@@ -1,0 +1,62 @@
+---
+title: What if Linux cost as much as Windows?
+description: The back-of-the-napkin math behind the plan's estimate of what Linux would bring in if it were licensed like Windows.
+---
+
+This is a quick and dirty back-of-the-napkin math exploration of the question: What would Linux cost if it charged for licensing just like Windows?
+
+## The ground rules
+
+We'll base this on today's digital infrastructure, hardware, and licensing models. You could argue that's unfair: if Linux had always cost money, markets would have adjusted and the world would look much different.
+
+One of the likeliest differences, though, is that there'd simply be less economic activity, and less digital infrastructure because of it. The point here is to get a sense of how much value open source creates _today_. So we're asking what Linux would bring in if we'd had just as much growth and built just as much digital infrastructure.
+
+Server operating systems are priced by how much hardware they run on, usually the number of CPU cores. So the first question is: how many cores are out there, and how many of them are in use?
+
+## How many cores are there?
+
+Servers last about 6 years on average, according to the hyperscalers themselves, who are the heaviest users.[^lifespan] So we'll look at the last 6 years of shipments, which come to about 86 million servers.[^shipments]
+
+Next, the average number of cores per server. The data here is fuzzier and less public, and cores per chip have grown fast: in 2020 the biggest server CPU had 80 cores,[^cpu-2020] and in 2026 the biggest has 288.[^cpu-2026] But most CPUs shipped aren't the biggest ones, so the average is much lower. Luckily, Lawrence Berkeley National Laboratory analyzed the server fleet in 2022–2023 to estimate its energy use, and its analysis gives a ballpark of around 50 cores per CPU back then.[^lbnl] Most servers can hold two or more CPUs, so the real number per server is likely well above that, and it's grown since. To stay on the conservative side, we'll call it 60 cores per server.
+
+<p className="calculation">60 cores × 86 million servers = **5.16 billion cores**</p>
+
+## How many are in use?
+
+Next, we'll take away 30% of those cores to account for:
+
+1. Customers on cheap, entry-level products. There are a lot of them, but they use a _small_ share of total compute, and we won't count any revenue from them at all.
+2. Development machines, which are given away for free.
+3. Cores sitting idle at any given moment, since modern deployments scale up and down as needed.
+
+This number is debatable, but I think it's defensible, and if anything, generous. Providers work hard to keep every core busy so they don't overbuy and leave capacity sitting idle.
+
+<p className="calculation">5.16 billion cores × 0.7 ≈ **3.6 billion cores**</p>
+
+## What would each core cost?
+
+For the price, we'll use Windows Server's pay-as-you-go pricing, since that's what lets us take the 30% off in the first place: usage scales up and down with Windows VMs, just like it does with modern Linux containers. That price is currently $0.046 per core per hour,[^windows-price] which works out to $402.96 per core per year. We'll round that down to $400.
+
+## The total
+
+<p className="calculation">3.6 billion cores × $400 per core per year = **$1.44 trillion a year**</p>
+
+Some of those cores run Windows today. Microsoft doesn't break out Windows Server's revenue from the rest of its cloud business, but even if we take out everything it made from server products and cloud services in fiscal 2025, about $100 billion,[^msft-10k] that still leaves well over $1.3 trillion.
+
+And that's just the operating system. We haven't counted databases, virtualization, programming languages, web servers, or any of the other open source tools that run on those same servers.
+
+{/* Sources. Each [^name] above links to its entry here; the page numbers them in the order they're cited. */}
+
+[^lifespan]: From their annual reports: Microsoft extended its servers' useful life [from four years to six](https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/msft-20240630.htm) in 2022, and Alphabet [to six years](https://www.sec.gov/Archives/edgar/data/1652044/000165204424000022/goog-20231231.htm) in 2023. Amazon uses six years but [cut a subset of its servers to five](https://www.sec.gov/Archives/edgar/data/1018724/000101872425000004/amzn-20241231.htm) in 2025, and Meta uses [5.5 years](https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm).
+
+[^shipments]: TrendForce, [Server Shipment](https://datatrack.trendforce.com/Chart/groupContent/69/server-shipment), DataTrack, quarterly shipments by vendor, updated October 16, 2026. The six years from July 2020 through June 2026 add up to about 86.0 million servers.
+
+[^cpu-2020]: Ampere, [Ampere Altra – Industry's First 80-Core Server Processor Unveiled](https://amperecomputing.com/en/press/ampere-altra-industrys-first-80-core-server-processor-unveiled), March 3, 2020.
+
+[^cpu-2026]: Intel, [Intel Xeon 6990E+ processor specifications](https://www.intel.com/content/www/us/en/products/sku/246074/intel-xeon-6990e-processor-576m-cache-2-20-ghz/specifications.html): 288 cores, launched in the second quarter of 2026.
+
+[^lbnl]: Arman Shehabi et al., [2024 United States Data Center Energy Usage Report](https://eta-publications.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report), Lawrence Berkeley National Laboratory, December 2024. Servers like those typically shipped to data centers average about 50 cores per CPU (p. 18), and in 2018, 89% of US server shipments could hold two or more CPUs (p. 28).
+
+[^windows-price]: Microsoft, [Azure Arc pricing](https://azure.microsoft.com/en-us/pricing/details/azure-arc/core-control-plane/): Windows Server pay-as-you-go costs $0.046 per core per hour, billed by [physical core](https://learn.microsoft.com/en-us/azure/azure-arc/servers/billing-windows-server-pay-go).
+
+[^msft-10k]: Microsoft, [Form 10-K for the fiscal year ended June 30, 2025](https://www.sec.gov/Archives/edgar/data/789019/000095017025100235/msft-20250630.htm), July 30, 2025: "Server products and cloud services" brought in $98.4 billion.

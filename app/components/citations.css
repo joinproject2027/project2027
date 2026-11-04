@@ -1,0 +1,47 @@
+/* Citations: the numbers in the text, and the "Sources" list at the end they point to. */
+
+/* A reference: a small red number, with a hit area bigger than it looks. line-height: 0 keeps it
+   from pushing its line away from the others. */
+.prose-site sup:has(> a[data-footnote-ref]) { font-size: 0.6em; line-height: 0; }
+.prose-site sup:has(> a[data-footnote-ref]) + sup:has(> a[data-footnote-ref])::before {
+  content: ","; color: var(--muted);
+}
+.prose-site a[data-footnote-ref] {
+  position: relative;
+  padding-inline: 0.12em;
+  font-family: var(--mono); font-weight: 700;
+  color: var(--red-text); text-decoration: none;
+  border-radius: 2px;
+}
+.prose-site a[data-footnote-ref]::after { content: ""; position: absolute; inset: -0.9em -0.4em; }
+.prose-site a[data-footnote-ref]:hover { text-decoration: underline; }
+/* Coming back from a source: show which reference it was. */
+.prose-site a[data-footnote-ref][data-target] { background: var(--red); color: var(--on-red); }
+
+.citations {
+  margin-top: 4em;
+  padding-top: 0.25em;
+  border-top: 1px solid var(--line);
+  font-size: 0.8em;
+}
+.citations > ol { padding-left: 1.9em; }
+.citations > ol > li { margin-block: 0.7em; padding-left: 0.3em; overflow-wrap: break-word; }
+.citations > ol > li::marker { font-family: var(--mono); font-size: 0.85em; font-weight: 700; color: var(--muted); }
+.citations li > p { margin-block: 0; }
+.citations li > p + p { margin-top: 0.4em; }
+.citations a { text-underline-offset: 0.15em; }
+/* The way back to the text. */
+.citations a[data-footnote-backref] {
+  position: relative;
+  margin-left: 0.3em; padding-inline: 0.15em;
+  color: var(--muted); text-decoration: none;
+}
+.citations a[data-footnote-backref]::after { content: ""; position: absolute; inset: -0.6em -0.5em; }
+.citations a[data-footnote-backref]:hover { color: var(--red-text); }
+.citations a[data-footnote-backref] sup { font-size: 0.7em; }
+/* Arriving at a source from the text: mark it. */
+.citations li[data-target] {
+  margin-inline: -0.5em -0.5em; padding: 0.4em 0.5em 0.4em 0.8em;
+  background: var(--tile);
+  box-shadow: inset 3px 0 0 var(--red);
+}

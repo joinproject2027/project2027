@@ -1,0 +1,53 @@
+/* The site header, from the "Project 2027 Flock" design. */
+header.top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding-inline: clamp(0px, 3vw, 48px); }
+.mark { font-family: var(--display); font-stretch: 75%; font-weight: 900; font-size: 22px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
+nav.primary { display: flex; flex-wrap: wrap; align-items: center; gap: 28px; font-size: 15px; font-weight: 600; }
+nav.primary a { color: var(--ink); text-decoration: none; }
+nav.primary a { display: inline-flex; align-items: center; min-height: 44px; }
+nav.primary a:hover { color: var(--red-text); }
+
+/* The light/dark switch: just an icon, with a full-size touch target. */
+.theme-toggle {
+  display: inline-grid; place-items: center;
+  width: 44px; height: 44px; margin-inline: -8px;
+  color: var(--ink); background: transparent; border: 0; cursor: pointer;
+}
+.theme-toggle:hover { color: var(--red-text); }
+.theme-toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+/* In the header it rides along in the corner of the window, so the theme can be switched from
+   anywhere in a long page. */
+header.top .theme-toggle {
+  position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); z-index: 30;
+  margin: 0;
+  background: var(--panel);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--line); border-radius: 50%;
+  box-shadow: 0 8px 24px -8px rgb(11 18 48 / 0.3);
+}
+/* Show the moon in light mode and the sun in dark, by the same rules app.css uses for the colors. */
+.theme-toggle .icon-sun { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .icon-sun { display: block; }
+  :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
+}
+:root[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+:root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+/* Phones: the links stay, a little closer together, and "Read the Plan" shows as just "Read" (it
+   stays whole for screen readers), so the header fits on one line from 360px wide up to 520px,
+   where it fits at full size. */
+@media (max-width: 519px) {
+  header.top { column-gap: 12px; }
+  .mark { font-size: 18px; }
+  nav.primary { gap: 16px; font-size: 14px; }
+  .nav-more {
+    position: absolute;
+    width: 1px; height: 1px; margin: -1px; padding: 0; border: 0;
+    overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  }
+}
+@media (max-width: 374px) {
+  .mark { font-size: 16px; }
+  nav.primary { gap: 14px; }
+}

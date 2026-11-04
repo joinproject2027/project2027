@@ -1,0 +1,194 @@
+/* The Project 2027 hero, from the "Project 2027 Flock" prototype.
+   Layout: full-bleed canvas; the flock draws the picture across the middle, and the manifesto sits in
+   the bottom left on a soft backdrop of the page color, so birds behind it don't get in the way of
+   reading. Tuning controls appear only at #tune. The colors and fonts are the site's, in app.css; the
+   header is SiteHeader's.
+
+   Everything here is scoped to the hero (.flock, or the page while it holds one), so none of it leaks
+   onto other pages: in dev, Vite keeps a page's CSS loaded after you navigate away. */
+
+/* The hero fills the screen and doesn't scroll, except on narrow screens (below). */
+html:has(.flock),
+body:has(.flock) { height: 100%; }
+body:has(.flock) {
+  overflow: hidden;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  box-sizing: border-box;
+}
+@media (max-width: 899px) {
+  body:has(.flock) { overflow-y: auto; }
+}
+
+.flock {
+  /* The wrapper only gives React one root; its children lay out as if they sat in <body>. */
+  display: contents;
+
+  /* The tuning panel and bar are display: flex, which would beat the hidden attribute without this. */
+  [hidden] { display: none !important; }
+
+  canvas#sky, canvas#you-layer { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+  canvas#you-layer { pointer-events: none; }
+  .page {
+    position: relative;
+    height: 100%;
+    box-sizing: border-box;
+    /* The prototype's host page added the top and bottom safe areas; here the page does. */
+    padding-block: calc(env(safe-area-inset-top, 0px) + 20px) calc(env(safe-area-inset-bottom, 0px) + 28px);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    pointer-events: none;
+  }
+  .page a, .page button, .page p, .page h1, .page .tune { pointer-events: auto; }
+
+  .hero { flex: 1; min-height: 0; display: flex; align-items: flex-end; padding-inline: clamp(0px, 3vw, 48px); }
+  .copy { position: relative; isolation: isolate; width: min(400px, 100%); display: flex; flex-direction: column; gap: 16px; }
+  /* The backdrop: the page color, nearly opaque, with edges blurred so the birds fade out behind
+     the text rather than stopping at a box. It reaches past the text without moving it. */
+  .copy::before {
+    content: "";
+    position: absolute; z-index: -1;
+    inset: -40px -48px;
+    background: var(--bg);
+    opacity: 0.9;
+    filter: blur(20px);
+    pointer-events: none;
+  }
+  .lede { margin: 0; font-size: 21px; line-height: 1.28; font-weight: 700; letter-spacing: -0.01em; text-wrap: balance; }
+  .lede em { font-style: normal; color: var(--red-text); }
+  h1 {
+    margin: 6px 0 0;
+    font-family: var(--display);
+    font-stretch: 70%;
+    font-weight: 900;
+    font-size: 42px;
+    line-height: 0.92;
+    text-transform: uppercase;
+  }
+  h1 .soft { color: var(--muted); }
+  /* The headline's last words wrap as one, so the red word is never left on a line by itself. */
+  h1 .keep { white-space: nowrap; }
+  h1 em { font-style: normal; color: var(--red-text); }
+  /* The calls to action: Read the plan, then Join the flock. They stay side by side even once
+     Join's message gets long (the row can run a little past the copy), and stack on phones. */
+  .cta-row { display: flex; align-items: center; gap: 12px; margin-top: 4px; }
+  .read, .join {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    min-height: 50px; padding: 0 20px; box-sizing: border-box;
+    font-family: var(--body); font-weight: 800; font-size: 16px; white-space: nowrap;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .read { color: var(--ink); background: var(--bg); border: 2px solid var(--ink); }
+  .read:hover { color: var(--bg); background: var(--ink); }
+  .join { color: var(--on-red); background: var(--red); border: 0; }
+  .join[data-state="idle"]:active { transform: translateY(1px); }
+  .join[data-state="joining"] { cursor: progress; }
+  .join[data-state="joined"] { cursor: default; }
+  /* Once "you" is in, the arrow nudges toward Read the plan a few times. */
+  .join .point {
+    display: inline-block;
+    --nudge-x: -5px; --nudge-y: 0px;
+    animation: flock-point 0.9s ease-in-out 4;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .join .point { animation: none; }
+  }
+
+  footer.bottom { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: flex-end; gap: 12px 24px; padding-inline: clamp(0px, 3vw, 48px); }
+  .quiet {
+    font: 700 12px/1 var(--mono); letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--muted); background: transparent; border: 1px solid var(--line);
+    min-height: 36px; padding: 0 12px; cursor: pointer;
+  }
+  .quiet:hover { color: var(--ink); }
+  .picker { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; pointer-events: auto; }
+  /* The picture picker: a button naming the picture, with a menu that opens upward. */
+  .shape-menu { position: relative; }
+  .shape-button {
+    display: inline-flex; align-items: center; gap: 10px;
+    font: 700 12px/1 var(--mono); letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap;
+    color: var(--ink); background: var(--chip); border: 1px solid var(--line);
+    min-height: 36px; padding: 0 12px; cursor: pointer;
+  }
+  .shape-button svg { width: 10px; height: 6px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; transition: rotate 0.15s; }
+  .shape-button[aria-expanded="true"] svg { rotate: 180deg; }
+  .shape-list {
+    position: absolute; z-index: 20; right: 0; bottom: calc(100% + 6px);
+    min-width: 100%; box-sizing: border-box; padding: 4px;
+    display: flex; flex-direction: column;
+    background: var(--panel); border: 1px solid var(--line);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 12px 32px -12px rgb(11 18 48 / 0.35);
+  }
+  .shape-list button {
+    font: 700 12px/1 var(--mono); letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap; text-align: left;
+    color: var(--muted); background: transparent; border: 0; min-height: 36px; padding: 0 12px; cursor: pointer;
+  }
+  .shape-list button:hover { color: var(--ink); }
+  .shape-list button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+  /* While the pictures cycle, a red bar marks the one the flock is drawing. */
+  .shape-list button[aria-current="true"]:not([aria-pressed="true"]) { color: var(--ink); box-shadow: inset 3px 0 0 var(--red); }
+  .shape-list button[data-shape="cycle"] { margin-top: 4px; border-top: 1px solid var(--line); }
+  @media (prefers-reduced-motion: reduce) {
+    .shape-button svg { transition: none; }
+  }
+
+  /* Tuning controls: only at #tune */
+  .tune { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .seg { display: inline-flex; border: 1px solid var(--line); background: var(--chip); }
+  .seg button, .toggle, .btn {
+    font: 700 12px/1 var(--mono); letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--muted); background: transparent; border: 0; min-height: 36px; padding: 0 12px; cursor: pointer;
+  }
+  .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+  .toggle, .btn { border: 1px solid var(--line); background: var(--chip); display: inline-flex; align-items: center; gap: 8px; }
+  .toggle .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+  .toggle[aria-pressed="true"] { color: var(--ink); }
+  .toggle[aria-pressed="true"] .dot { background: var(--red); }
+  .panel {
+    position: fixed;
+    top: calc(env(safe-area-inset-top, 0px) + 120px);
+    right: max(16px, env(safe-area-inset-right, 0px));
+    width: 320px; max-width: calc(100% - 32px); max-height: calc(100% - 200px);
+    overflow-y: auto; box-sizing: border-box;
+    padding: 16px 16px 18px;
+    background: var(--panel); border: 1px solid var(--line);
+    display: flex; flex-direction: column; gap: 16px;
+    backdrop-filter: blur(6px);
+    font-family: var(--mono);
+  }
+  .panel h2 { margin: 0; font: 700 12px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .group { display: flex; flex-direction: column; gap: 12px; }
+  .row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: baseline; }
+  .row label { font-size: 12px; color: var(--ink); }
+  .row output { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .row input[type="range"] { grid-column: 1 / -1; width: 100%; accent-color: var(--red); margin: 0; }
+  .row .hint { grid-column: 1 / -1; font-size: 11px; color: var(--muted); line-height: 1.4; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .status { font-size: 11px; color: var(--muted); min-height: 14px; margin: 0; overflow-wrap: anywhere; }
+
+  @media (max-width: 899px) {
+    .page { height: auto; min-height: 100%; }
+    .hero { align-items: flex-start; padding-top: 40vh; }
+    /* Stay inside the 16px gutter, so the backdrop can't widen the page into a sideways scroll. */
+    .copy::before { inset: -28px -16px; }
+    .lede { font-size: 19px; }
+    h1 { font-size: 36px; }
+    .panel { top: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 16px); max-height: 50%; }
+    /* The picker sits at the left, clear of the theme switch floating in the bottom right corner. */
+    footer.bottom { justify-content: flex-start; }
+    .shape-list { right: auto; left: 0; }
+  }
+  /* Phones: the buttons stack, Read the plan on top, so the arrow turns to point up at it. */
+  @media (max-width: 559px) {
+    .cta-row { flex-direction: column; align-items: stretch; }
+    .join .point { rotate: 90deg; --nudge-x: 0px; --nudge-y: -5px; }
+  }
+}
+
+/* Keyframes can't sit inside a style rule, so the join arrow's nudge is out here. */
+@keyframes flock-point {
+  50% { translate: var(--nudge-x) var(--nudge-y); }
+}

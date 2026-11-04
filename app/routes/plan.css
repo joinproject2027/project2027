@@ -1,0 +1,37 @@
+/* The plan page: the text in one column, with the table of contents in a bar above it on narrow
+   screens and in the left margin from 1280px. */
+.plan-page {
+  --page-pad: max(16px, env(safe-area-inset-left));
+  --main-pad: clamp(0px, 3vw, 48px);
+  min-height: 100svh;
+  padding: 20px var(--page-pad) 96px;
+}
+.plan-layout {
+  --toc-bleed: calc(var(--page-pad) + var(--main-pad));
+  padding-inline: var(--main-pad);
+}
+/* 17px on phones, and from 640px prose-xl's 20px, a point smaller. Everything inside is sized in
+   em, so it all follows. */
+.plan-layout > article { max-width: 42rem; margin: 4rem auto 0; font-size: 1.0625rem; }
+.plan-layout > .toc { margin-top: 2.5rem; }
+/* Land headings and sources below the contents bar, not under it. */
+.plan-layout [id] { scroll-margin-top: 80px; }
+
+@media (min-width: 640px) {
+  .plan-layout > article { margin-top: 5rem; font-size: 1.1875rem; }
+}
+
+@media (min-width: 1280px) {
+  .plan-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 42rem) minmax(0, 1fr);
+  }
+  .plan-layout > article { grid-area: 1 / 2; margin-top: 6rem; }
+  .plan-layout > .toc {
+    grid-area: 1 / 1;
+    align-self: start; justify-self: end;
+    width: 15rem; max-width: calc(100% - 3rem);
+    margin: 6rem 3rem 0 0;
+  }
+  .plan-layout [id] { scroll-margin-top: 32px; }
+}

@@ -1,0 +1,109 @@
+/* The table of contents. Below 1280px it's a bar stuck to the top of the window that opens the
+   list; from 1280px the list itself sits beside the text, and the page places it there.
+   A page can set --toc-bleed to its side padding so the bar runs edge to edge. */
+.toc {
+  --toc-pad: var(--toc-bleed, 0px);
+  font-family: var(--body);
+}
+.toc a { text-decoration: none; }
+.toc-title { display: none; }
+.toc-list, .toc-list ol { margin: 0; padding: 0; list-style: none; }
+
+/* Only the current section shows the entries under it. Animating the row from 0fr to 1fr lets
+   the height ease open to fit whatever's inside. */
+.toc-children {
+  display: grid; grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.3s ease, opacity 0.3s ease;
+}
+.toc-list > li[data-current] > .toc-children { grid-template-rows: 1fr; opacity: 1; }
+.toc-children > ol { min-height: 0; overflow: hidden; }
+@media (prefers-reduced-motion: reduce) {
+  .toc-children { transition: none; }
+}
+
+@media (max-width: 1279px) {
+  .toc {
+    position: sticky; top: 0; z-index: 20;
+    margin-inline: calc(-1 * var(--toc-pad));
+    background: var(--panel);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-block: 1px solid var(--line);
+  }
+  .toc-toggle {
+    display: flex; align-items: center; gap: 12px;
+    width: 100%; min-height: 52px; padding: 0 var(--toc-pad);
+    font: inherit; color: var(--ink); text-align: left;
+    background: transparent; border: 0; cursor: pointer;
+  }
+  .toc-label {
+    flex: none;
+    font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .toc-current {
+    flex: 1; min-width: 0;
+    overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+    font-size: 15px; font-weight: 700;
+  }
+  .toc-chevron {
+    flex: none; width: 20px; height: 20px;
+    fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    transition: transform 0.2s;
+  }
+  .toc-toggle[aria-expanded="true"] .toc-chevron { transform: rotate(180deg); }
+  .toc-toggle:hover .toc-chevron { color: var(--red-text); }
+  .toc-toggle:focus-visible { outline: 2px solid var(--red-text); outline-offset: -4px; }
+
+  .toc-list { display: none; }
+  .toc[data-open] .toc-list {
+    display: block;
+    position: absolute; top: calc(100% + 1px); left: 0; right: 0;
+    max-height: calc(100svh - 53px - 32px); overflow-y: auto; overscroll-behavior: contain;
+    padding: 8px var(--toc-pad) 16px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 24px 48px -16px rgb(11 18 48 / 0.25);
+  }
+  .toc-list a {
+    display: block; padding: 10px 0 10px 14px;
+    font-size: 16px; line-height: 1.3; color: var(--text);
+    border-left: 3px solid transparent;
+  }
+  .toc-list > li > a { font-weight: 700; color: var(--ink); }
+  .toc-list ol a { padding-left: 30px; font-size: 15px; }
+  .toc-list a[aria-current] { border-left-color: var(--red); color: var(--ink); }
+}
+
+@media (min-width: 1280px) {
+  .toc {
+    position: sticky; top: 32px;
+    display: flex; flex-direction: column;
+    max-height: calc(100svh - 64px);
+  }
+  .toc-toggle { display: none; }
+  .toc-title {
+    display: block; flex: none; margin: 0 0 14px;
+    font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  /* The rail is drawn inside the list, not as its border, so the scrolling box doesn't clip the
+     current entry's marker where it sits over the rail. */
+  .toc-list {
+    position: relative; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+    box-shadow: inset 1px 0 0 var(--line);
+    scrollbar-width: thin;
+  }
+  .toc-list a {
+    display: block; padding: 5px 0 5px 16px;
+    font-size: 14px; line-height: 1.35; color: var(--muted);
+    border-left: 2px solid transparent;
+  }
+  .toc-list > li > a { font-weight: 600; }
+  .toc-list > li[data-current] > a { color: var(--ink); }
+  .toc-list ol a { padding-left: 30px; font-size: 13.5px; }
+  .toc-list > li + li { margin-top: 2px; }
+  .toc-list a:hover { color: var(--red-text); }
+  .toc-list a[aria-current] { color: var(--ink); border-left-color: var(--red); }
+}

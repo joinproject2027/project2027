@@ -1,0 +1,84 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* The site's colors and fonts, from the "Project 2027 Flock" design. Dark mode follows the system
+   unless <html data-theme="light|dark"> picks one. */
+:root {
+  --bg: #FFFFFF;
+  --ink: #0B1230;
+  /* Running text: a little softer than --ink against the background (12:1 here, 13.7:1 in dark). */
+  --text: #2E3555;
+  --muted: #4A5270;
+  --line: #D9DCE8;
+  --tile: #ECEEF5;
+  --red: #E0182D;
+  --red-text: #E0182D;
+  --on-red: #FFFFFF;
+  --chip: #F2F3F8;
+  --panel: rgba(255, 255, 255, 0.94);
+  --display: 'Archivo', 'Arial Narrow', system-ui, sans-serif;
+  --body: 'Inter Tight', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Headings: full ink in light mode, a step down from pure white in dark. */
+  --heading: #0B1230;
+  --mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  /* For the odd literary touch, like the pull quote under the Paris figure. */
+  --serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #070B1E; --ink: #FFFFFF; --text: #D3D8EA; --muted: #B7BEDB; --line: #262C4A; --tile: #121A3A; --heading: #E6E9F4; --red: #E0182D; --red-text: #FF4458; --on-red: #FFFFFF; --chip: #121833; --panel: rgba(7, 11, 30, 0.94);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #070B1E; --ink: #FFFFFF; --text: #D3D8EA; --muted: #B7BEDB; --line: #262C4A; --tile: #121A3A; --heading: #E6E9F4; --red: #E0182D; --red-text: #FF4458; --on-red: #FFFFFF; --chip: #121833; --panel: rgba(7, 11, 30, 0.94);
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+}
+button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid var(--red-text); outline-offset: 3px; }
+
+/* Written pages (the plan): Tailwind Typography in the site's colors and type. */
+.prose-site {
+  /* Headings use --heading, bold stays at full --ink, and the running text is the softer --text. */
+  --tw-prose-body: var(--text);
+  --tw-prose-headings: var(--heading);
+  --tw-prose-lead: var(--muted);
+  --tw-prose-links: var(--red-text);
+  --tw-prose-bold: var(--ink);
+  --tw-prose-counters: var(--muted);
+  --tw-prose-bullets: var(--muted);
+  --tw-prose-hr: var(--line);
+  --tw-prose-quotes: var(--text);
+  --tw-prose-quote-borders: var(--red);
+  --tw-prose-captions: var(--muted);
+  --tw-prose-code: var(--text);
+  --tw-prose-pre-code: var(--text);
+  --tw-prose-pre-bg: var(--chip);
+  --tw-prose-th-borders: var(--line);
+  --tw-prose-td-borders: var(--line);
+  font-family: var(--body);
+}
+.prose-site :where(h1, h2, h3) {
+  font-family: var(--display);
+  font-stretch: 75%;
+  font-weight: 900;
+}
+/* A worked step in a calculation, on its own line: <p className="calculation">. */
+.prose-site .calculation {
+  padding: 0.7em 1em;
+  font-family: var(--mono); font-size: 0.8em;
+  color: var(--ink);
+  background: var(--tile);
+  border-left: 3px solid var(--red);
+}
+.prose-site .calculation strong { color: var(--red-text); }
+.prose-site :where(h1) {
+  font-stretch: 70%;
+  line-height: 0.92;
+  text-transform: uppercase;
+}

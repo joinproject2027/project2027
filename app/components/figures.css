@@ -1,0 +1,254 @@
+/* Figures in the written pages. Every color comes from the site's tokens, so the art follows the
+   light and dark themes. Classes: s-* set a stroke, f-* a fill. */
+.p27-figure {
+  /* Shades between the ink and the page, for shapes that sit back. */
+  --fig-shape: color-mix(in srgb, var(--muted) 22%, var(--tile));
+  --fig-faint: color-mix(in srgb, var(--ink) 26%, var(--bg));
+  --fig-dim: color-mix(in srgb, var(--ink) 45%, var(--bg));
+  margin: 3rem auto;
+}
+.p27-figure svg { display: block; width: 100%; height: auto; overflow: visible; }
+.p27-figure svg text { font-family: var(--body); }
+.p27-figure svg .t-display { font-family: var(--display); font-stretch: 75%; font-weight: 900; }
+.p27-figure figcaption {
+  max-width: 30rem;
+  font-size: 0.75em;
+  line-height: 1.5;
+  margin: 1rem auto 0;
+  text-align: center;
+  color: var(--muted);
+}
+
+.p27-figure .s-ink { stroke: var(--ink); }
+.p27-figure .s-red { stroke: var(--red); }
+.p27-figure .s-muted { stroke: var(--muted); }
+.p27-figure .s-dim { stroke: var(--fig-dim); }
+.p27-figure .s-faint { stroke: var(--fig-faint); }
+.p27-figure .s-shape { stroke: var(--fig-shape); }
+.p27-figure .s-none { stroke: none; }
+.p27-figure .f-ink { fill: var(--ink); }
+.p27-figure .f-red { fill: var(--red); }
+.p27-figure .f-muted { fill: var(--muted); }
+.p27-figure .f-shape { fill: var(--fig-shape); }
+.p27-figure .f-bg { fill: var(--bg); }
+.p27-figure .f-none { fill: none; }
+.p27-figure .f-faint { fill: var(--fig-faint); }
+.p27-figure .s-bg { stroke: var(--bg); }
+.p27-figure .s-line { stroke: var(--line); }
+
+/* Two panels side by side, the art on the left; stacked on a phone. */
+.p27-pair-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  align-items: center;
+  gap: 2rem;
+}
+.p27-pair-art { max-width: 15rem; justify-self: center; }
+@media (max-width: 600px) {
+  .p27-pair-grid { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  .p27-pair-art { max-width: 11rem; }
+}
+
+/* The two chokepoints: side by side with a rule between them, and stacked on phones, each the
+   width of the text. */
+.p27-choke-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.p27-choke-panel:first-child { padding-right: 1.5rem; }
+.p27-choke-panel:last-child { padding-left: 1.5rem; border-left: 1.5px solid var(--fig-faint); }
+.p27-choke-title { margin: 1rem 0 0; font-size: 0.85em; font-weight: 500; line-height: 1.3; text-align: center; color: var(--ink); }
+@media (max-width: 600px) {
+  .p27-choke-grid { grid-template-columns: minmax(0, 1fr); }
+  .p27-choke-panel:first-child { padding: 0 0 1.75rem; }
+  .p27-choke-panel:last-child { padding: 1.75rem 0 0; border-left: 0; border-top: 1.5px solid var(--fig-faint); }
+}
+
+/* The spending line: a title and a solid/dashed key above the chart. */
+.p27-spend-title { font-size: 0.8em; font-weight: 600; color: var(--ink); }
+.p27-spend-key { display: flex; gap: 1rem; margin: 0.35rem 0 0.5rem; font-size: 0.75em; color: var(--muted); }
+.p27-spend-key span { display: inline-flex; align-items: center; gap: 0.4rem; }
+.p27-spend-line { display: inline-block; width: 1.25rem; border-top: 2px solid var(--red); }
+.p27-spend-line.is-dashed { border-top-style: dashed; }
+
+/* One state to fifty: four small maps in a row, two by two on a phone. The states not yet on
+   board are small outlines, so they get a stronger "faint" than other figures to stay legible. */
+.p27-figure.p27-map { max-width: 48rem; --fig-faint: color-mix(in srgb, var(--ink) 40%, var(--bg)); }
+.p27-map-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+.p27-map-label {
+  margin-top: 0.5rem;
+  text-align: center;
+  font-size: 0.8em;
+  line-height: 1.4;
+  color: var(--muted);
+}
+@media (max-width: 640px) {
+  .p27-map-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 1.75rem; }
+}
+
+/* Linux against the Mag 7: one bar per company, to scale, with its value at the tip. The label
+   sits beside the bar, and above it on a phone. */
+.p27-bars { display: grid; gap: 0.6rem; }
+.p27-bars-row {
+  display: grid;
+  grid-template-columns: 13.5rem minmax(0, 1fr);
+  align-items: center;
+  column-gap: 1rem;
+}
+.p27-bars-label { font-size: 0.8em; line-height: 1.3; color: var(--muted); text-align: right; }
+.p27-bars-row.is-linux .p27-bars-label { color: var(--ink); font-weight: 600; }
+.p27-bars-track { display: flex; align-items: center; gap: 0.5rem; }
+.p27-bars-bar { height: 20px; border-radius: 0 4px 4px 0; background: var(--fig-dim); }
+.p27-bars-row.is-linux .p27-bars-bar { background: var(--ink); }
+.p27-bars-value {
+  font-family: var(--display); font-stretch: 75%; font-weight: 900;
+  font-size: 1.05em; line-height: 1; color: var(--ink); white-space: nowrap;
+}
+@media (max-width: 520px) {
+  .p27-bars { gap: 0.85rem; }
+  .p27-bars-row { grid-template-columns: minmax(0, 1fr); row-gap: 0.3rem; }
+  .p27-bars-label { text-align: left; }
+}
+
+/* Profit against costs: each bar a year of revenue split in two, both to one scale. */
+.p27-split { display: grid; gap: 1.5rem; }
+.p27-split-legend { display: flex; gap: 1.25rem; font-size: 0.8em; color: var(--muted); }
+.p27-split-legend span { display: inline-flex; align-items: center; gap: 0.45rem; }
+.p27-swatch { display: inline-block; width: 0.8rem; height: 0.8rem; border-radius: 2px; }
+.p27-split-label { margin-bottom: 0.45rem; font-size: 0.8em; font-weight: 600; color: var(--ink); }
+.p27-split-bar { display: flex; gap: 2px; height: 28px; }
+.p27-split-seg { flex-basis: 0; min-width: 2px; border-radius: 4px; }
+.p27-figure .is-profit { background: var(--ink); }
+.p27-figure .is-cost { background: var(--fig-dim); }
+.p27-split-stat { margin-top: 0.45rem; font-size: 0.8em; color: var(--muted); }
+.p27-split-stat strong {
+  font-family: var(--display); font-stretch: 75%; font-weight: 900;
+  font-size: 1.3em; color: var(--ink);
+}
+
+/* The pain signal: today and with permeability side by side, stacked on a phone. */
+.p27-pain-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+.p27-pain-title {
+  margin-bottom: 0.5rem;
+  font-size: 0.8em;
+  font-weight: 500;
+  color: var(--ink);
+}
+@media (max-width: 720px) {
+  .p27-pain-grid { grid-template-columns: minmax(0, 1fr); row-gap: 1.75rem; }
+}
+
+/* The Paris rooftop (paris.svg) is drawn in night-sky colors; map them onto the theme. */
+.p27-paris [fill="#111d31"] { fill: var(--bg); }
+.p27-paris [stroke="#f2e7cf"] { stroke: var(--ink); }
+.p27-paris [fill="#f2e7cf"] { fill: var(--ink); }
+/* The moon, stars and lit windows keep the drawing's own gold, deepened on light backgrounds. */
+.p27-paris { --paris-gold: #A8822F; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .p27-paris { --paris-gold: #DEC28B; }
+}
+:root[data-theme="dark"] .p27-paris { --paris-gold: #DEC28B; }
+.p27-paris [stroke="#dec28b"] { stroke: var(--paris-gold); }
+.p27-paris [stroke="#b9c1c9"] { stroke: color-mix(in srgb, var(--ink) 60%, var(--muted)); }
+.p27-paris [stroke="#aab6c3"] { stroke: color-mix(in srgb, var(--ink) 40%, var(--muted)); }
+.p27-paris [stroke="#97a5b5"] { stroke: var(--muted); }
+.p27-paris [stroke="#718397"] { stroke: color-mix(in srgb, var(--muted) 60%, var(--bg)); }
+
+/* The Ratatouille line sits under the rooftop as a pull quote rather than a small caption. */
+.p27-figure .p27-paris-quote { max-width: 34rem; margin-top: 1.5rem; font-size: 1em; color: var(--ink); }
+.p27-paris-quote blockquote {
+  margin: 0; padding: 0; border: 0; quotes: none;
+  font-family: var(--serif); font-weight: 500; font-style: italic;
+  font-size: 1.4em; line-height: 1.35; color: var(--ink);
+}
+.p27-paris-quote blockquote::before, .p27-paris-quote blockquote::after { content: none; }
+.p27-paris-quote blockquote::after { content: ""; display: block; width: 2.5rem; height: 2px; margin: 1rem auto 0; background: var(--red); }
+
+/* The paper maze (maze.svg) is drawn in dark-theme colors; map them onto the theme. */
+.p27-maze [fill="#090b1d"] { fill: var(--bg); }
+.p27-maze [stroke="#34384e"] { stroke: color-mix(in srgb, var(--muted) 35%, var(--bg)); }
+.p27-maze [fill="#11152b"] { fill: var(--tile); }
+.p27-maze [stroke="#11152b"] { stroke: var(--tile); }
+.p27-maze [stroke="#f04b53"] { stroke: var(--red); }
+.p27-maze [fill="#f04b53"] { fill: var(--red); }
+.p27-maze [fill="#c0c1d0"] { fill: var(--muted); }
+.p27-maze [stroke="#f5f4f0"] { stroke: var(--ink); }
+.p27-maze [stroke="#ffffff"] { stroke: var(--on-red); }
+
+/* Canvas-drawn figures (perm-*.svg) use the canvas palette; map each color onto the theme. */
+.p27-board [fill="#070B1E"] { fill: var(--bg); }
+.p27-board [stroke="#070B1E"] { stroke: var(--bg); }
+.p27-board [fill="#FFFFFF"] { fill: var(--ink); }
+.p27-board [stroke="#FFFFFF"] { stroke: var(--ink); }
+.p27-board [fill="#8A91AD"] { fill: var(--muted); }
+.p27-board [stroke="#8A91AD"] { stroke: var(--muted); }
+.p27-board [fill="#5A6285"] { fill: var(--fig-dim); }
+.p27-board [stroke="#5A6285"] { stroke: var(--fig-dim); }
+.p27-board [fill="#3A4266"] { fill: var(--fig-faint); }
+.p27-board [stroke="#3A4266"] { stroke: var(--fig-faint); }
+.p27-board [fill="#11173A"] { fill: var(--tile); }
+.p27-board [fill="#E0182D"] { fill: var(--red); }
+.p27-board [stroke="#E0182D"] { stroke: var(--red); }
+
+/* A phone screenshot, with the screen's rounded corners. The hairline keeps a dark screenshot's
+   edge from disappearing into the dark theme. */
+.p27-screenshot {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 2rem;
+  border: 1px solid var(--line);
+}
+
+/* The School OS setup: three steps in a row with arrows between, stacked on a phone. */
+.p27-figure .f-tile { fill: var(--tile); }
+.p27-figure .f-on-red { fill: var(--on-red); }
+.p27-figure .s-on-red { stroke: var(--on-red); }
+.p27-setup-steps {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 2.5rem;
+  margin: 0; padding: 0; list-style: none;
+}
+.p27-setup-step {
+  display: flex; flex-direction: column; align-items: center;
+  margin: 0; padding: 0; text-align: center;
+}
+.p27-setup-step::marker { content: none; }
+.p27-setup-num {
+  display: grid; place-items: center;
+  width: 1.9em; height: 1.9em; margin-bottom: 0.75rem;
+  font-family: var(--mono); font-size: 0.7em; color: var(--muted);
+  border: 1px solid var(--line); border-radius: 50%;
+}
+.p27-setup-art { position: relative; width: 100%; }
+.p27-figure .p27-setup-art > svg:first-child { max-width: 12rem; margin-inline: auto; }
+.p27-setup-title { margin-top: 0.75rem; font-size: 0.85em; font-weight: 600; line-height: 1.3; color: var(--ink); }
+.p27-setup-detail { margin-top: 0.25rem; font-size: 0.7em; line-height: 1.45; color: var(--muted); }
+/* The arrow to the next step sits in the gap, level with the middle of the drawing. */
+.p27-figure .p27-setup-arrow {
+  position: absolute; top: 50%; left: 100%; transform: translateY(-50%);
+  width: 2.5rem; padding-inline: 0.3rem;
+  fill: none; stroke: var(--fig-dim); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+}
+/* Stacked on a phone, the numbers carry the order on their own. */
+@media (max-width: 640px) {
+  .p27-setup-steps { grid-template-columns: minmax(0, 1fr); row-gap: 2.75rem; }
+  .p27-figure .p27-setup-art > svg:first-child { max-width: 10rem; }
+  .p27-figure .p27-setup-arrow { display: none; }
+}
+
+/* Who holds the keys: one provider's cloud beside a personal cloud each, stacked on a phone. */
+.p27-keys-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.p27-keys-panel { text-align: center; padding-inline: 1.25rem; }
+.p27-keys-panel + .p27-keys-panel { border-left: 1px dashed var(--line); }
+.p27-figure .p27-keys-title { margin: 0.75rem 0 0; font-size: 0.85em; font-weight: 600; line-height: 1.3; color: var(--ink); }
+.p27-figure .p27-keys-detail { margin: 0.25rem 0 0; font-size: 0.7em; line-height: 1.45; color: var(--muted); }
+@media (max-width: 640px) {
+  .p27-keys-grid { grid-template-columns: minmax(0, 1fr); row-gap: 2.5rem; }
+  .p27-keys-panel { padding-inline: 0; }
+  .p27-keys-panel + .p27-keys-panel { border-left: 0; padding-top: 2.5rem; border-top: 1px dashed var(--line); }
+}

@@ -1,0 +1,667 @@
+---
+title: The Plan
+---
+
+import { LockedIn, RentVsOwn, OneStateToFifty, StillFaxing, TwoLocks, GrownNotDesigned, LinuxVsMicrosoft, LinuxVsMaintenance, PainSignal, WhoHoldsTheKeys, TwoChokepoints, ParisRooftop, PaperMaze, PricedVsPermeable, UseSelectsWhatSpreads, SharedPainPriority, ManyCenters, ParkMobileUpsell, SchoolSetup, CredibleExit, MagSevenRevenue, MagSevenProfit } from "../app/components/figures";
+
+Hello! Welcome to Project 2027!
+
+This might seem like an odd introduction. Usually, when you visit a movement's website, you'd expect to find a landing page with a slick design, a sign-up button for a newsletter, maybe a call to action to donate. But this is not your average movement.
+
+You see, Project 2027 is a _plan_.
+
+It's a plan that doesn't need a central leader or organization, and it doesn't need donations or funding. The core of it is an idea that can spread like a seed. That anyone can take, plant, and watch grow - including you.
+
+Not that you need to! I get it, we're all incredibly busy, and I'm betting you don't like the sound of _even more work_ at the moment. But this plan operates on the Ratatouille model, which is to say:
+
+<ParisRooftop />
+
+Just substitute "chef" with "someone who can take this plan and run with it". So, give this plan a quick skim, and if you think it sounds like a good idea, share it, and you'll have done your part.
+
+Now, on to business!
+
+## Ok, so what _is_ the plan exactly?
+
+Project 2027 is a plan to accomplish 4 core goals. In order from most immediate and realistic, to most abstract and ambitious, they are:
+
+1. **Rebuild local and state government tools and services**, to save money and improve real people's lives.
+2. **Build state capacity and momentum**, so that we're ready for the federal level in 2029.
+3. **Take technology and the internet back from the billionaires**, and return them to the public.
+4. **Reshape the economic narrative for a generation**.
+
+The plan starts with government software. Right now, we effectively rent our software from private companies who charge us for every change, who lock us into their systems, and who have little competition. The US is set to spend roughly _$313 billion_ on technology in 2026 at the federal, state, and local level, and that cost keeps going up.[^govtech-spending]
+
+<LockedIn />
+
+Despite all of that spending, I'm willing to bet that you've had to deal with a government website that feels like it hasn't been updated since the 90s. Clearly, wherever all those tax dollars are going, we're not getting our money's worth.
+
+**This is an _opportunity_.**
+
+If we build the software ourselves, then we _own it_. And to put it in perspective, we could hire 100,000 developers, pay them $200k each (which would be competitive with Silicon Valley),[^bay-area-pay] and that would come to just _$20 billion_ a year.
+
+<RentVsOwn />
+
+So, for the same money, we could have a massive public workforce maintaining our software, have plenty left in the budget to cover cloud hosting costs and other expenses, and send the rest of it back to the people and toward other services.
+
+## That sounds great, but... how?
+
+We use the same process that built the Internet: **open source!**
+
+You've probably heard about or used some open source software (OSS) over the years. But Silicon Valley's dirty little secret is that open source _runs the world_.
+
+Let's give a quick example of what I mean with Windows vs Linux.
+
+Microsoft's total revenue for Server Products was $98.4 billion in 2025.[^msft-10k] Windows Server, their direct competitor to Linux, is some portion of that, but it also includes income from their cloud hosting suite and databases. Overall, that's a bit over a third of their total revenue.
+
+If Open Source Corp was a company, and it charged the same amount as Windows to license Linux, then it would bring in _$1.3 trillion a year_, give or take a few billion (my own estimate, [napkin math here](/plan/linux-licensing)).
+
+<LinuxVsMicrosoft />
+
+In fact, if we compare this theoretical revenue number to each of the Mag 7 companies, we can see that it beats all of them.[^mag7]
+
+<MagSevenRevenue />
+
+And if that's not enough, here are some other products and systems that only exist because of open source software:
+
+- Android Phones (Linux)[^android]
+- iPhones (Darwin, which used much of FreeBSD)[^darwin]
+- Playstations (FreeBSD)[^playstation]
+- Smart TVs (Android and Linux)[^smart-tvs]
+- Teslas (Linux)[^tesla]
+- Car dashboards from Toyota, GM, Ford, Honda, Volvo and more (Linux and Android)[^car-dashboards]
+- Starlink Satellites (Linux)[^starlink]
+- Every top-500 supercomputer (Linux)[^top500]
+- Much of the smart-home and embedded world[^embedded]
+
+Now, how much do you think we spend on _maintaining_ all of that software every year? Well, it's hard to say _exactly_, but somewhere in the realm of $7.7 billion, give or take.[^oss-funding]
+
+<LinuxVsMaintenance />
+
+To put this in perspective, let's compare the _profit_ that Linux would make to the profit the Mag 7 make, _combined_.[^mag7]
+
+<MagSevenProfit />
+
+Linux would have nearly double their profits and a 99% margin, a level of efficiency which is _unheard of_. In other words, open source is possibly the _most efficient bureaucracy the world has ever seen_.
+
+So, we're going to follow that process. In fact, you are following it _right now_. This document is effectively a **Request For Comments (RFC)**,[^rfc] which is how we make decisions in the open source world. We put ideas out there, along with everything needed to make them come to life, and then we discuss, we coordinate, we build momentum, and we get things done.
+
+Here's how it'll work.
+
+## Phase 1: Build
+
+Start by finding a piece of government software that fulfills as many of these qualities as possible:
+
+1. Relatively simple
+2. Isolated from other systems
+3. Low stakes
+4. Expensive
+5. _Really bad_
+6. Something that multiple governments need to deploy
+
+For example, In Virginia, the occupational licensing software is woefully out of date.[^dpor-jlarc] You still have to snail mail the application for a license to Richmond, where two employees manually type the details into the system. There have been two attempts to replace it since 2018, both of which have failed and cost the state millions.[^dpor-replacements]
+
+<PaperMaze />
+
+Occupational licenses are a great starting point, because they're relatively straightforward and isolated, every state needs them.
+
+In a different direction, we could focus on parking apps. Specifically, let's talk about [ParkMobile](https://parkmobile.io/).[^parkmobile] They recently have started to _upsell_ a subscription to get rid of their fees.[^parkmobile-go]
+
+<ParkMobileUpsell />
+
+This is what writer and tech critic Cory Doctorow calls "enshittification",[^enshittification] where apps capture a market and then, when it's too difficult for users to switch, begin to make the experience worse and extract profit.
+
+ParkMobile is good software, but it's trending in a bad direction. The app is very simple, it's low stakes, and every single city across America needs it, so this would be a perfect test case for Phase 2.
+
+The larger point here is, software is literally _everywhere_, and we can find incremental pieces to pick off one at a time.
+
+Once you find the software you want to replace, the next step is to work out how to do that. There are many potential paths to doing this. Multiple states (including Virginia!) have been putting together digital service teams, so there is clearly appetite to invest more in tech teams at the state level.[^state-digital-services] NYC also created the Public Interest Technology (PIT) Crew under Mamdani, which is exploring improving government tech in different ways.[^nyc-pit]
+
+Here's where average people can lend their voices to the process. Developers will need to build these apps, but everyone can lobby their local and state politicians to use and fund them.
+
+You can put it to them this way: This experiment would cost maybe $1-2 million over the next 2 years, at most. That may sound like a lot, but it is a rounding error in a state or large city budget.
+
+This is a low risk, high reward play, and if _anyone_ succeeds, we _all_ do, thanks to Phase 2.
+
+## Phase 2: Share
+
+Once one city or state builds the software in the open, they can then share it, and we can turn a win in 1 state into a win in all 50.
+
+<OneStateToFifty />
+
+Every state will have its own requirements, processes, statutes, etc. But we should be able to make it configurable for each state's needs, as long as we plan accordingly.
+
+Now, there is one more key aspect here. You know how apps on your phone and computer update automatically? We need to implement something like this, but for _services_.
+
+One of the main reasons states and cities will buy a service rather than building it or running it themselves is the cost of maintaining it.[^gao-legacy] We need to bring that cost down, and there will be two main components to doing this:
+
+1. **Standardize cloud server deployments,** so that you can just plug in an off the shelf machine and have your own mini cloud. Or plug a bunch into a datacenter and have a public one for your town, your city, or your state. Cloud compute should essentially be a commodity, and it shouldn't matter where you get it from.
+
+2. **Standardize server app deployments,** so that managing your own instance is a cakewalk. This includes everything from rolling updates to migrations to backups and so on.
+
+It needs to get to the point where an IT admin for a rural school can plug in a "cloud-in-a-box" server, setup School OS, check autoupdate, and _generally_ expect things will work and be backed up properly, even if the machine unplugged by the janitor or coffee spilled all over it.
+
+<SchoolSetup />
+
+The good news is that most of the work for this phase has already been done in the open source world, we just need to standardize some of the details, harden it, and make it bulletproof.
+
+If we do this, the result will be a set of tools and software that can be easily replicated in states and cities across the nation. Tools that will be durable and independent, with the ability to fork or opt-out while still staying up to date and never falling behind.
+
+## Phase 3: Expand
+
+Once we've done this successfully once, we'll have:
+
+1. Established credibility and gained trust
+2. Built the plumbing to be able to do this for many other applications
+3. Have saved enough money to justify our own, continuing paychecks
+
+From here, we open source the rest of the government one tool and system at a time. We start with the low hanging fruit, the easy and obvious wins. We then move onto more complex systems. We move onto the federal systems in 2029, and we move onto other systems beyond that.
+
+Yes, beyond government. Because there are many, many systems which we all depend on and which should be open.
+
+Consider, for instance, hospitals and medical systems.
+
+Have you ever had trouble getting your records from one doctor to another? Have you had to fax them a form, or fill out your list of prescriptions for the umpteenth time?[^hospital-fax] Have you ever wondered what would happen if you were unconscious and taken to a hospital where they didn't happen to have your penicillin allergy on file?
+
+<StillFaxing />
+
+And thinking more broadly, what if there's a disaster, and the internet is offline? Shouldn't you be able to run the system in isolation, indefinitely, for something so important? A triage station in a war zone, or a rural hospital in an impoverished community? Hell, if we ever get there one day, what about Mars? Are we just going to ship a copy of Epic up there along with the first crew?
+
+The fact is that companies who run these systems don't have much incentive to make these changes. Their users are the hospitals, and the hospitals are locked in. The regulatory hurdles are large, and new players in the market can't catch up.[^ehr-market] This is exactly the type of market failure where government is supposed to step in and push for change, and that's exactly what we'll do.
+
+From there, we can start to build all of the tools we rely on in public, as apps that we can all run, and own, ourselves, on our own personal clouds. Your email, your calendars, your docs, owned by _you_, not on a corporation's servers or locked into their ecosystem.
+
+<WhoHoldsTheKeys />
+
+Because software is infrastructure that doesn't decay, it doesn't get used up. You can make an infinite number of copies of it, and give them away, and it doesn't take anything from anyone.
+
+We can all have our own internet of tools, each bubble able to talk to the others seamlessly, but _ours_.
+
+No tracking software spying on our every move.
+
+No lock-in that we can't escape.
+
+Software for us. By us.
+
+## Phase 4: Maintain
+
+Now, for the last and most ambitious goal: **Changing the economic narrative for a generation.**
+
+Neoliberalism has dominated policy since the Reagan Revolution in the '80s, but most of the assumptions it made about markets have been in question since the 2008 financial crisis. With this last election, we have seen a thorough rejection of that old model, which gives us an opportunity to tell a new story.
+
+I call this story **Open Capital**, and it works like this.
+
+In Open Capital systems, the source code of the means of production are _open_: they have no IP protections and can be examined and copied by anyone. This enables _permeability_, which is when users can cross the divide and become maintainers of their own tools. This brings us a few powerful dynamics:
+
+1. **It allows the pain-signal to propagate.** User pain is what economists call _tacit knowledge_: it is difficult to articulate and often only becomes clear through direct experience. This makes it very difficult to turn into a _price-signal_ in traditional markets, but in a permeable system, the pain itself can propagate as a signal, and this guides attention and resources.
+
+<PricedVsPermeable />
+
+2. **This propagation creates a _market dynamic_, without _prices_ or _currency_.** Users gravitate toward the biggest and most painful problems affecting themselves or their teams, and come up with fixes for them. They then share these fixes, and other users evaluate them and spread them based on what works best.
+
+<UseSelectsWhatSpreads />
+
+3. **This market discovers and fixes the most painful problems through statistical aggregation of the pain-signal.** If there are a million users for a given tool, and their is a major pain point in the tool, then statistically, it's more likely that users will discuss it, complain about it, and try to fix it. More users being affected means more attempts at fixing it, which means more likelihood it gets fixed, and more innovation while trying to fix it.
+
+<SharedPainPriority />
+
+The system that emerges over time in these conditions is what the political scientist Elinor Ostrom called _polycentric governance_: a system where multiple centers of decision-making interact and adapt based on local knowledge and needs.[^polycentric]
+
+
+<ManyCenters />
+
+
+This is how open source is able to maintain the entire worldwide software ecosystem with so little funding. It's an economic paradigm that works _at scale_, and it's already how the world works _today._
+
+To increase permeability, we can incentivize people by providing access to education, time to work on problems, and financial and community support. We can also reverse it, and seed the population with developers, having them go out into the field and finding the pain points directly. This is the model that the U.S. Digital Service (USDS) and 18F used to great effect. They brought technologists in from industry for "tours of duty" and embedded them inside agencies, working side by side with the civil servants who actually ran each program,[^usds-18f] and it's a proven method that gets results.
+
+### Users are the best innovators
+
+If you need more evidence that this works, just look at Operating Systems. The very first operating system, built back in the 1950s, was created by users solving their own pain points.[^first-os]
+
+In fact, users have _always_ driven innovation. There's a whole field of research into this very topic,[^user-innovation] and the amount of innovation that comes from solving personal pain points is absolutely massive.
+
+None of this relies on currency. It also doesn't rely on altruism or idealism. It is still driven by people's self-interest. It just turns out that collaborating and sharing systems and ideas and standards with each other is usually in _everyone's_ self interest, in the long run.
+
+In this way, we can create a system that addresses and prioritizes user's pain, rather than shareholder profit. And through that, we can build a better economic system for everyone.
+
+## One final thought
+
+Have you ever been frustrated by what I call the Ron Swanson effect, where people who don't believe government can work well get into office, and proceed to make government not work well? It's frustrating that we may get 2 or 4 or even 8 solid years to build something, only to have it be torn down just as it's beginning to show its returns on investment. A recent example being the IRS direct file program, which was piloted in 2024 and expanded in 2025, only to be shut down that same year.[^direct-file]
+
+Well, if we can get the system that I described above in place, then that no longer is an issue. Because unlike today, _they wouldn't be able to lock us out._
+
+At some point, these systems will become self-sustaining and ubiquitous. Trying to block upstream changes to critical services will be like trying to stop updates to Linux. People can drag their feet, but the ecosystem will move forward regardless.
+
+## Common Concerns and FAQs
+
+### Is there any precedent for this?
+
+Yes actually! There are at least two examples that have worked quite well in the US:
+
+1. **The [Evergreen library system](https://evergreen-ils.org/).** About 1,800 libraries run on Evergreen, an open source platform that was initially built by the Georgia state government for its statewide library network. The original developers eventually spun out to a private company that later became a non-profit, and they provide consulting services to the states that require them, but many states administer the system on their own. Georgia itself has run its network mostly in-house since 2012.[^evergreen]
+2. **The [CompactConnect](https://compactconnect.org/) data system** for sharing occupational licenses between states. This was actually put together in just the last few years. The interstate compacts for counselors, occupational therapists, and audiologists and speech-language pathologists (each one a joint agency created by its member states) built it together through the Council of State Governments, and they jointly own the code, which is open source. The first states went live on it in 2025.[^compact-connect] It shows that there is _appetite_ for building this way, and that the process _can work_ across many states working together.
+
+And there are more internationally:
+
+1. **DHIS2,** a health information system built at the University of Oslo, which more than 80 countries now use as their government-wide system of record for health data.[^dhis2]
+2. **openDesk,** an open source office suite built for public agencies by a company the German federal government owns. It's now on around 100,000 government workstations, and rather than build its own notes app, Germany develops one jointly with France.[^opendesk] Governments across Europe are making similar moves, including switching to LibreOffice.[^sovereign-platforms]
+3. **X-Road,** the open source data exchange layer behind Estonia's digital government. Estonia and Finland now develop it together through a shared institute, and Iceland, Ukraine, Québec and the German state of Schleswig-Holstein have joined as members.[^x-road]
+4. **GOV.UK Notify,** the UK's open source service for sending government emails and text messages. Canada copied the code and had its own version running within days, and hundreds of Canadian government services now use it.[^notify]
+
+
+There are also some historical examples that _haven't_ worked well or have been mixed. Two major ones:
+
+- **The Department of Veterans Affairs' VistA system for VA hospitals.** The system was initially developed in the _late 1970s_, so it had a massive amount of legacy cruft, but it effectively worked as an open source platform (its code is in the public domain) that hospitals regularly modified and updated on their own, driving innovation. For a long time, it was actually well rated! As late as 2014, doctors rated it the best electronic health record in the country.[^vista]
+
+  The fragmentation is what caught up with this system in the end though. Every hospital ended up having its own custom deployment, based on legacy languages and databases and their own unique plugins or options. By 2019, the VA was running about 130 different versions of VistA.[^vista-versions] This made it essentially impossible to migrate forward, and eventually, the VA decided to replace it with Oracle Health.
+
+  However, that transition has not been going very well either,[^va-oracle] showing the weakness of contracting out systems to spec. And in the end, this is why the work in Phase 2 is _crucial_. We need to make sure that even if individual users have customizations, everyone can stay up to date with the latest and not create fragmentation or decoherence.
+
+- **The American Rescue Plan, which set aside $2 billion to modernize unemployment insurance.** The Department of Labor's plan for that money leaned heavily on open source, building modular tools that any state could pick up and reuse.[^arpa-ui] There were a number of issues with this, from the number getting slashed in half during budget fights, to red tape and roadblocks being thrown up everywhere, to the funding ultimately being clawed back by the Trump administration.[^arpa-clawback]
+
+  But I think the bigger issue here was that we were going after the biggest target first. The funding was focused on the unemployment insurance system. That is an absolutely _massive_ system, serving tens of millions of Americans, and run separately by every one of the 50 states under federal rules.
+
+As I note below in ["Why start with state and local governments?"](#why-start-with-state-and-local-governments), massive systems that serve that many people are a very different beast than many city or state systems. And the fact is, after the last 50 years of neoliberal dominance, do not have the muscle to build those kinds of systems yet. This is _why_ we need to focus on smaller systems first.
+
+This is why we _need_ Project 2027.
+
+We need to build up the processes, the talent, the skill, and the developer base, so that when we go to take on the leviathans that are the federal systems in 2029, _we are ready_.
+
+### Is it secure?
+
+One very well established but counterintuitive thing about open source is that it ends up being _more_ secure than closed source. Think about it this way, which would you trust more:
+
+1. A lock with designs that are hidden, with some testing every so often by lock pickers that the company hires, OR
+2. A lock with designs are publicly available, and the company hosts a yearly conference to bring all of the best lock pickers and safe crackers from all over the world to try to break it? And also, those lock pickers and safe crackers all use the lock themselves?
+
+<TwoLocks />
+
+The second one tends to be safer![^open-design] In fact, this is how modern cryptography algorithms were developed, in public at math conferences.[^nist-crypto]
+
+Now, we do still need to provide funding for open source. Maintainer burnout is a huge issue, and there can be weak points in the system, as we've seen recently with several high visibility vulnerabilities.[^supply-chain]
+
+I know for many that these vulnerabilities were just another sign of how bad things are, how underfunded security systems are, and so on. But, I think that hidden within that mess, there has been a demonstration of the immense _efficiency_ that the open source process has. Time and time again, people leap into action and get critical systems updated, and the word is spread incredibly quickly. It's not universal, and it should absolutely be better funded with more _preemptive_ measures taken. But, can you imagine if the process to fix a vulnerability like this had to go entirely through a government or corporate bureaucracy instead?
+
+If anything, these recent issues point exactly to the solution outlined above. One of the key problems is the fact that so many apps and services are running their own artisanal mix of various systems with different, outdated versions.[^log4j] This includes many commercial apps, because every company is ultimately trying to maximize profit, and routine maintenance and security fixes regularly get pushed aside for new features.
+
+If we make server apps work and update as smoothly as an app on your phone, then we can get the ecosystem moving together more smoothly and ensure that critical security updates rollout quickly and effectively. The end result will be a safer, less stressful world for all of us.
+
+### What about the geopolitics of it?
+
+This is another one that people misunderstand. Wouldn't we just be giving our software away to the world for free? Won't that mean that the US is going to be paying to maintain other countries' software while they freeload? And what about _China/Russia/North Korea/Iran/\<Insert-Baddie-of-the-Month-Here\>_??? Do we really want everyone to have access to our tech?
+
+Again, counter-intuitively, _yes_, because it creates a self-balancing system of power.
+
+You see, in the open source world, nobody _owns_ the code, because anyone can copy it at any time. Geopolitically, this means that no one country can unilaterally turn off systems for another country, nor can they make decisions without the consent of other countries.
+
+However, if you are the primary maintainer of an open source system, you do get much more influence. You get to set the standards for how things work, to lay out the fundamentals of the design, and to make sure that your country's interests are prioritized.
+
+Basically, doing work buys you influence and power, without giving you full control.
+
+Now, if you push your advantage too far, then the ability for other countries to fork and make their own copy acts as an effective check on your power. Consider the situation with Google Chrome and Microsoft Edge. In 2020, Microsoft switched Edge to use Chromium, Google's open source browser, under the hood.[^edge-chromium] This cemented Google's lead in browser marketshare, and Google maintains most of the control over Chromium's development to this day.[^chromium-share]
+
+Yet, Google can't make decisions unilaterally. If they started to build features that benefitted themselves at the expense of Microsoft, then Microsoft would fork and begin maintaining their own version of Chromium, dividing the market and challenging Google's dominance in the space. This keeps Google from holding Microsoft over a barrel, and you can see how a similar dynamic would work between countries.
+
+<CredibleExit />
+
+It's important to note that this is not a _perfect_ system. For instance, Google made some user-hostile changes for ad-blockers in the recent Manifest v3 transition that really upset the community,[^manifest-v3] yet this was not enough for Microsoft to push back on, likely because it did not disrupt their _business_ all too much. The same sort of issue will always pop up between companies and states sharing a commons, which is why it is important that we exercise our voice and build our capacity to advocate for ourselves, rather than ceding control to a few companies (or countries). The threat of forking must always be actionable, and occasionally taken when needed, as the community has done successfully in the past on several occasions.[^forks]
+
+Now, there's one last bit here, and I'm afraid it's somewhat bad news for the US tech industry: _This transition is already happening_.
+
+I would say that it got locked in between the war with Iran, and separately, the US cutting off access to Anthropic's Fable model this summer.[^fable] The war exposed many countries' dependency on oil, and began driving momentum toward energy independence and creation of closed-loop systems broadly.[^energy-independence] Nobody wants their economy to tank in a matter of weeks due to disruptions in that supply chain, especially when they can happen for such arbitrary and capricious reasons.
+
+And right as that calculation was being made, the US revealed that it could do this for _technology services_ overnight.
+
+Imagine what happens if you shut down Office 365 in a nation because they aren't bending the knee? An economy comes tumbling to a halt because it can't use simple spreadsheets, documents, chat apps; tools it has come to rely on.
+
+<TwoChokepoints />
+
+Nations around the world are now looking at how to move onto sovereign platforms for all of these critical functions, and the end result is more than likely going to be that they use open source platforms rather than rebuild the wheel in every nation.[^sovereign-platforms]
+
+So, if we _don't_ do this, our influence is going to fall, and we're going to be at the mercy of whoever _does_ do it first.
+
+Like, for instance, China.
+
+Just saying. Only a matter of time before they realize this all too, if they haven't already.
+
+### Why start with state and local governments?
+
+A few main reasons:
+
+1. **The problems are smaller in scale.** As noted above, the more people you need to serve, the harder it is to build an app that serves them all. An app that works well for 100,000 users is very different from one that works well for 1 million or 330 million.
+2. **The payoff is bigger.** If we solve a problem at the federal level, then we've solved it for one user, at least within the US. If we solve a problem at the _state_ level, then we've solved in for 50 users, and that means we can theoretically 50x our savings and build momentum faster. Same goes for cities and counties.
+3. **We get more than one shot.** If we can get many state and local governments involved in this, one way or another, there's a higher likelihood that one project will succeed. One project succeeding buys every other project more time, and pays off for the cost of any other projects that do not succeed for whatever reason.
+
+At a higher level, one generalization I repeat often is "economies are grown, not designed". You can try to throw a lot of money at a problem, but that requires central planning and can be easily mismanaged. You also end up putting all of your eggs in one basket, even if that basket attempts to diversify with many teams.
+
+<GrownNotDesigned />
+
+Successful open source projects emerge organically. Linux was the combined effort of many programmers over multiple decades,[^gnu-linux] putting together individual pieces until it finally was ready for prime time. Similarly, to take on the big problems, we must first take on the small ones and build up our _capacity_ for bigger problems.
+
+We need to build the teams and the communities in each state and city across the nation, so that everyone can be a part of the process.
+
+### What about compliance?
+
+Anyone who starts looking into government processes and technology immediately hits a wall of complexity when they start to understand the level of compliance and safety that these tools need to fulfill. Governments often prioritize these concerns over baseline efficiency, for a variety of reasons that make sense to governments and that we will not get into here.
+
+The point being that yes, we _must meet this bar_. Full stop. I reiterate this below in the contributor notes, but we will need to make sure that the systems we build can be audited and seen as compliant, and that they minimize risk for the state. We will also need to _extend_ that to ensure that the system of continuously and automatically updated apps that this document envisions can also be compliant, whatever that entails.
+
+The good news is that we aren't starting from scratch here. Compliance has traditionally been a point-in-time audit: a system gets reviewed, approved, and then more or less frozen, because every major change means another review. But most of those checks can be automated and run in the deployment pipeline on _every single update_, scanning dependencies for known vulnerabilities, verifying that configurations still match the approved security controls, recording exactly what changed and who signed off on it, and blocking the release if anything fails. The federal government is already heading this way. FedRAMP, the program that approves cloud services for federal agencies, and the Department of Defense are both building paths where systems are validated continuously instead of being reauthorized from scratch.[^continuous-compliance]
+
+If we build those checks into the shared platform once, then every app and every state that runs on it inherits them. That's a much stronger compliance story than a binder that gets updated once a year.
+
+This will be difficult. It is a very high bar to fulfill.
+
+However, there are major benefits to doing it this way, specifically for _us_ as citizens. Governments are punished far more harshly than companies for failing to meet compliance and safety standards. This is something that we have seen over and over again, and is a major driver of the privatization of our government systems and technology.
+
+The best way to fix that, if you are a government that _must_ deploy and manage its own code, is to _build software that does not break_.
+
+Higher quality, safer, more secure. This raises the bar in every way that we actually want as citizens and constituents. So the benefit outweighs the cost.
+
+No more passing the buck.
+
+### How does AI fit into all of this?
+
+This plan is AI agnostic, in the sense that we _could_ decide to use it if we determine that it helps and is worth the cost. However, I recommend reading [this breakdown of the issues and limitations](https://maevyn.codes/decoherence) with AI driven software development.
+
+The long and short of it is, we do not want:
+
+- 1000 versions of the same tool.
+- Mountains of sloppy code that is brittle and difficult to work with.
+- Codebases that are so large that you _must_ use AI to work on them.
+- All-in-one tools or systems that lock people into workflows and prevent them from branching out, configuring, and combining tools to meet their own needs.
+
+We DO want:
+
+- Unified, configurable tools with clean APIs.
+- Platforms that can integrate with many tools, rather than single-use apps (think Home Assistant rather than Philips Hue).
+- Where appropriate, different parallel distributions for different use cases (see: the Linux distribution model).
+- Stable tools that people can depend on.
+
+AI is great for building a lot of mediocre things fast. It's not so great at unifying things, building coherence, and ensuring future extensibility.
+
+This is _on top of_ the other problems that AI presents from a sociopolitical perspective, such as the environmental impacts, the issues data centers are causing in local communities,[^data-centers] the jobs that are being automated prematurely,[^ai-job-cuts] than the overall lower quality of AI made products.
+
+All of this given, the _tentative_ recommendation is to not use AI or to minimize use of AI, and to build out teams of engineers instead. While it may be tempting to think of AI as a shortcut here, the fact is that _slow and steady wins the race_.
+
+The industry is hemorrhaging talent right now. Engineers have been (metaphorically) slapped in the face repeatedly over the last few years. They have been told that they are redundant, that they aren't needed anymore.[^tech-layoffs] They have told their managers that AI code is not up to par, and the managers don't care. Mandates have come down from the top,[^ai-mandates] and engineering has been seen as a cost sink rather than the valuable pool of labor that keeps systems alive and functioning well.
+
+This is, once again, an opportunity.
+
+Talented engineers with years of experience are more willing than ever to try something new. Discontent is pervasive, and if we harness this, we can take that talent and redirect it to work for the people, instead of for profit.
+
+### Isn't this just the Fediverse?
+
+If you've been plugged into the details behind platforms like Bluesky and Mastodon, you may have heard about the _Fediverse_, a portmanteau of "federation" and "universe". The idea is very similar to the end state I sketch out above - people run their own nodes and services, own their own data, and no one platform, company, or individual can control a network.
+
+The thing is, the Fediverse is basically _hard mode_ of this direction.
+
+Social networks have to scale to the size of the planet. The whole point is that you can connect to everyone via a shared protocol, so systems like Twitter, Whatsapp, Discord, and yes even _email_ have to work across any number of people and scale up to 8 billion users (or beyond, if you count the bots).
+
+Compare this to, say, an elementary school, which has maybe a few thousand concurrent users at a given time. Even city and state services only need to scale to millions of total users, and far fewer concurrent users. That may _sound_ like a lot, but is a _much, much_ easier problem to solve compared to the scale of social networks.
+
+Plus, along the way, we can improve real people's lives and save public money, which we can then argue should fund more of this work.
+
+I think the long tail of this is that we meet somewhere in the middle.
+
+### Aren't open source apps are kind of janky?
+
+One of the main arguments people will make is that while open source is great at making tools for coders, it takes the unified vision of a _real company_ to make a quality, user friendly experience.
+
+I disagree. The issue is (a) the lack of funding for OSS, meaning that developers only really get to focus on solving their own needs, and (b) the lack of permeability, as discussed above.
+
+Both of these issues can be worked on across the board, and we can build tools and systems that have excellent user experience. There are plenty of examples of projects that operate this way, including:
+
+- **Firefox,** which while no longer dominant, once led the pack in user experience, and has recently experienced revival with browsers like Zen building on top of its open core.[^zen]
+- **Signal,** the messaging app that has become more and more prolific due to its security and ease of use.[^signal]
+- **Blender,** a 3d modeling mainstay for decades that has gotten steadily better and better in many ways, and is the go to for small studios and people just getting started.[^flow]
+- **Mastodon,** a social network with pretty amazing UX and one of the first apps to prove that the Fediverse (see the previous section) could actually work.
+
+We also have a major advantage now, which is that _we know what we're trying to make_. The internet has slowed down significantly compared to the churn of the early days. We generally know the patterns that apps have, and it's unlikely that there will be significant changes or improvements to those any time soon.
+
+I know, I know, I can hear a bunch of people shouting "what about AI???" at the screen. Yes, AI is new and paradigm shifting in some ways. But the fact is, even if you have an AI agent filling out forms and entering data most of the time, you will still want the ability to _manually_ review the forms, correct? And you'll still want a basic UI that allows you to navigate your data, no?
+
+That is the part that is unlikely to change dramatically, and it's exactly the part that we can commodify and improve in the commons _today_.
+
+### Is this related to [usaproject2027.org](https://usaproject2027.org/)?
+
+No, that site went up in [2025](https://web.archive.org/web/20251015000000*/https://usaproject2027.org/) and has been fairly static. While I respect the fact that they saw the need for this early, at this point the 2027 elections have happened and I think the name could be put to better use, focusing on what we can actually do here and now.
+
+## Notes for Implementers
+
+These are not hard and fast rules, but I think it's important to say a few things about how we should go about this if we are to be successful.
+
+### We DO NOT break userspace!
+
+These are [the immortal words of Linus Torvalds](https://lore.kernel.org/all/CA+55aFy98A+LJK4+GWMcbzaa1zsPBRo76q+ioEjbx-uaMKH6Uw@mail.gmail.com/), and while Linus has historically kind of been known as, how shall I put this delicately, _a bit of an asshole_, the fact is that this cardinal rule is responsible for much of Linux's success over the years.
+
+Open source projects do not have the benefit of the doubt when it comes to quality. Large corporations and closed-source projects can offer enterprise service contracts and the safety of working with one of the biggest corporations on the planet. Plus, nobody ever got fired for using Windows or Oracle.
+
+Now that Linux is dominant, technical gravity works in its favor. It would be significantly easier for users to fork the project and correct any major issues, or just wait for the next stable version, versus switching to closed source alternatives. But during the nascent, early stages, quality is of _utmost importance_.
+
+We must be diligent and vigilant. We must anticipate issues and failure modes, and we must prevent them _before_ they occur, not after. We will often not get a second chance.
+
+We need people's first experience with replacement tools to be, at the _very least_, zero regression from whatever tools they're coming from. If _nothing changed at all_, then we've done a good job. We've saved money, we've justified our own existence and paychecks, and we can keep building and improving incrementally.
+### Coordinate and coalesce early and often
+
+If this takes off, there will be a lot of projects attempting to do this. Many of them will be duplicates of each other, and while 2 or 3 attempts at a particular system or tool may be good (since it makes it more likely that one of them will succeed), what we don't want in the end is fragmentation and a hundred versions of the same tool.
+
+Find other projects early and often, and try to see if you can work together. It doesn't matter if they're using tools or frameworks you're not a fan of, or have made decisions that don't match your taste, UNLESS you believe there are major structural issues. And in that case, raise those issues early so they are aware! Try to work with them!
+
+As for coordination and community building, we should invest in this _early and often._ The boring work of running meetings, putting together agendas, taking notes, etc. is _incredibly_ important.
+
+TC39, the technical committee that defines JavaScript, has plenary meetings every 2 months or so.[^tc39] They have _extremely_ efficient systems for getting through the agendas, which are _massive_. The work of putting these multi-day meetings together, running them, and keeping them on task is a full time job.
+
+So, prioritize those roles. Make sure someone is focused on it, and if people want to contribute but can't through code, then this is a place they can instead. We will need to do a lot of coordination and communication work to create a durable community, so it is _worth it_.
+
+### Understand that the bar is excruciatingly high
+
+As mentioned above government organizations are, for a variety of reasons that could fill several books, often much more concerned with risk and compliance than with efficiency. A major part of the reason why governments choose corporate software is that much of the liability for failures gets absorbed by the corporation rather than the government, even if it results in a structurally weaker system that is more fragmented and difficult to maintain.
+
+We will need to meet that bar with excellent engineering, and we will be fighting an uphill battle. Open source solutions will be seen as risky, right up until the moment they aren't, just like Linux was.
+
+This will mean that some projects don't make it. We have to take this on the chin, and pivot quickly when it becomes clear. As mentioned above, every project should be working to coordinate and coalesce quickly, so we can focus on the ones that are succeeding and avoid fragmentation.
+
+### Don't boil the ocean
+
+This is a turn of phrase that means "don't try to fix everything at once." Boiling the ocean is a task so big that, with the exception of a truly catastrophic event such as a major meteor strike, it is all but impossible.
+
+As we noted above, if _nothing changed at all_, then we've done a good job. Getting the software updated to modern practices, using modern tooling, owned and deployed by the state and the public, and into the open domain and open source world generally are all major accomplishments in and of themselves.
+
+Focus on these things first. Then focus on improvements, starting with the biggest pain points first.
+
+One thing that I struggled with for a long time was running a mile. I had asthma as a kid, and I was never that athletic in high school, despite trying my hardest. In college, I decided to get into shape, and I ended up using the C25K program after hearing about it online.
+
+It felt far too easy at first. 60 seconds running, 90 seconds walking? I didn't even break a sweat. But I stuck with it, and day over day it got harder, but I was ready for each new level. Each week was just a _little_ more effort, a little more of a push, than the last week. And I could hold out just a bit longer.
+
+Eventually, I was running 3 miles, three times a week. And ever since then, I've always been able to run at least a mile at a decent pace, no matter how long it's been since I last ran.
+
+Start slower than you think. Build momentum. Focus on the long term. Don't do too much up front, and focus on doing the things you _are_ doing the right way.
+
+This is a marathon, not a sprint.
+### If it ain't broke, don't fix it
+
+An extension of the statement above is, legacy pieces that are working well are likely not the first ones to tackle. If there's an Oracle or SQL Server database that could be replaced with Postgres, for instance, that _might_ be fine to replace. It also might be a nightmare. Migrations can be messy, legacy databases can have a lot of oddities you can't see or aren't considering.
+
+Maybe, instead, you replace the app on top first, and get everything working well. Then, when you have time and resources, you go after the legacy pieces that are separable.
+### Don't let the perfect be the enemy of the good. But also, don't let the "good enough" be the enemy of the great.
+
+The first part of this statement is often said, and it is truly good wisdom that is, in effect, another way of saying "don't boil the ocean." But the second part is my addition. And it's an important one, as it ties back to [decoherence](https://maevyn.codes/decoherence).
+
+It is a very common pattern that we start migrations without finishing them, that we create interop layers with legacy systems and then forget about them and leave them to languish, because we need to move onto the next most important task.
+
+This is just kicking the can down the road. Eventually, all of those layers come back to bite, especially in government.
+
+We will never create perfect software. But we must strive to all the same. And in doing that, we need to _finish the things we start_. Get the migrations finished, and turn off the legacy database. Get the last of the design system updated. Don't leave loose ends, and don't get distracted before you do.
+
+Another dirty secret that Silicon Valley loves to ignore is that most of the startups out there take out a large "loan" of technical debt, only to win their races, turn into major companies, and be so filled to the brim with debt that the they can't ever really pay it down. And these are companies that started in the last decade or two, that have the advantage of using all of the best practices _from the start_.
+
+And the ones that don't have those advantages? Well, as they say, Visa and banks still run on FTP. They struggle just as much with these problems of legacy debt, and I cannot tell you the number of times I have seen a quarterly roadmap stacked to the brim with new features and a _tiny slice_ of tech debt, only to get to the end of the quarter and see that none of the features shipped, and we'd hardly made a dent in the debt.
+
+Don't make that mistake.
+### You are not the main character
+
+This is a final note targeted to the Silicon Valleyites out there, with much love.
+
+We have been told a story about ourselves for a long time. That we are making the world better through technological progress. That we are revolutionizing and modernizing ancient and broken systems through "disruption". That we can do anything with software and a pack of redbulls.
+
+This is not how the world works.
+
+We are not the main characters. We build tools. People use our tools to do things in their lives, and sometimes those tools are incredibly useful and helpful and they unlock hidden potential and possibilities.
+
+But we are only the tool makers. We are not the doctors or the nurses, we are not the farmers or the construction workers, we are not the teachers or the social workers. We are their support crew. We exist to make their lives easier and better, to make their jobs safer and less painful.
+
+We must never forget this.
+
+And the unfortunate truth is that we have forgotten it, frequently, and with disastrous results. From tying teacher evaluations to metrics like test scores,[^teacher-evaluations] to providing "free internet access" in developing countries and then keeping those users in walled gardens,[^free-basics] to pushing for programs like One Laptop Per Child with the thought that hardware would somehow provide salvation to struggling students and teachers.[^olpc]
+
+The culmination of this behavior, in it's most disgraceful and damaging form, was DOGE. A billionaire and his entourage, convinced that they knew how to fix government, and that all they needed were the keys to the kingdom to do it.
+
+People have every reason not to trust us, is what I'm saying.
+
+And we must earn their trust, if we are to be successful.
+
+We must listen to their pain, and meet their demands. When the users say "jump", we must reply, in unison and with no hesitation, "how high?".
+
+We must work to build the best software the world has ever seen. And we must remember, through all of it: *We are not the main characters.*
+
+## How do I help?
+
+There are 3 main paths at the moment for contributing: sharing it, joining the discussion, and funding. The [Contribute](/contribute) page has the details for each.
+
+{/* Sources. Each [^name] above links to its entry here; the page numbers them in the order they're cited. */}
+
+[^govtech-spending]: Deltek forecasts federal spending on contractor-supplied IT products and services at $144.5 billion in fiscal 2026, growing to $164.6 billion by 2029 (GovWin IQ, [Federal Information Technology Market, 2026-2029](https://iq.govwin.com/neo/marketAnalysis/view/Federal-Information-Technology-Market--2026-2029/70997?researchTypeId=2), June 18, 2026). It puts the state, local and education IT market at $168.5 billion in 2026, growing to $209.8 billion by 2029 (GovWin IQ, [SLED IT Market Forecast, 2026-2029](https://services.govwin.com/neo/marketAnalysis/view/SLED-IT-Market-Forecast-2026-2029-with-data-set-/71479?researchTypeId=2), July 31, 2026). The chart's 2025 figure comes from Deltek's forecasts a year earlier: $155 billion for state, local and education (GovWin IQ, [SLED IT Market Forecast, 2025-28](https://iq.govwin.com/neo/marketAnalysis/view/SLED-IT-Market-Forecast-2025-28-with-data-set-/66771?researchTypeId=2), April 30, 2025), and about $137 billion for federal, on the path from $131.0 billion in fiscal 2024 to $156.1 billion in fiscal 2028 (GovWin IQ, [Federal Information Technology Market, 2024-2028](https://iq.govwin.com/neo/marketAnalysis/view/Delteks-Federal-IT-Market-Assessment-Forecasts-Spending-Trends-Through-2028/7882), July 3, 2024). Deltek publishes each forecast's first and last years, so the years between assume steady growth.
+
+[^bay-area-pay]: U.S. Bureau of Labor Statistics, [Occupational Employment and Wage Statistics: San Jose–Sunnyvale–Santa Clara, CA](https://data.bls.gov/oes/#/area/0041940/2025), May 2025. Software developers there earned a mean of $221,710 and a median of $213,110 a year, not counting stock. Levels.fyi puts median total pay for [software engineers in the Bay Area](https://www.levels.fyi/t/software-engineer/locations/san-francisco-bay-area), stock included, at $281,000.
+
+[^msft-10k]: Microsoft, [Form 10-K for the fiscal year ended June 30, 2025](https://www.sec.gov/Archives/edgar/data/789019/000095017025100235/msft-20250630.htm), July 30, 2025. "Server products and cloud services" brought in $98.4 billion of $281.7 billion in total revenue. That line includes Azure, which [passed $75 billion](https://www.microsoft.com/en-us/investor/earnings/FY-2025-Q4/press-release-webcast) that year.
+
+[^mag7]: The "Magnificent Seven," from each company's Form 10-K for its latest fiscal year: [Amazon](https://www.sec.gov/Archives/edgar/data/1018724/000101872426000004/amzn-20251231.htm) ($716.9 billion in revenue, 2025), [Apple](https://www.sec.gov/Archives/edgar/data/320193/000032019326000026/aapl-20260926.htm) ($478.8 billion, fiscal year ended September 2026), [Alphabet](https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/goog-20251231.htm) ($402.8 billion, 2025), [Microsoft](https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/msft-20260630.htm) ($331.8 billion, fiscal year ended June 2026), [Nvidia](https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm) ($215.9 billion, fiscal year ended January 2026), [Meta](https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm) ($201.0 billion, 2025) and [Tesla](https://www.sec.gov/Archives/edgar/data/1318605/000162828026003952/tsla-20251231.htm) ($94.8 billion, 2025). Together they brought in $2.44 trillion and kept $660.1 billion of it as net income, a 27% margin. Linux's profit here is its $1.3 trillion, less the $7.7 billion a year spent maintaining all of open source.
+
+[^android]: Android Open Source Project, [Kernel overview](https://source.android.com/docs/core/architecture/kernel): "The Android kernel is based on an upstream Linux Long Term Supported (LTS) kernel."
+
+[^darwin]: Wikipedia, [Darwin (operating system)](https://en.wikipedia.org/wiki/Darwin_(operating_system)): the core of macOS and iOS, built in part from FreeBSD code.
+
+[^playstation]: Wikipedia, [PlayStation 4 system software](https://en.wikipedia.org/wiki/PlayStation_4_system_software): the PS4's operating system, Orbis OS, is based on FreeBSD 9.
+
+[^smart-tvs]: Android TV is part of [the Android platform](https://source.android.com/docs/devices/tv). LG describes its TVs' webOS as ["a Linux-kernel-based multitasking OS"](https://www.lg.com/global/newsroom/news/corporate/webos-enters-next-phase-as-global-platform-under-lgs-stewardship), and Samsung's Tizen began as a [Linux Foundation project](https://www.linuxfoundation.org/press/press-release/limo-foundation-and-linux-foundation-announce-new-open-source-software-platform-tizen) for "a Linux-based device software platform."
+
+[^tesla]: Tesla, [Linux sources](https://github.com/teslamotors/linux) on GitHub. Fred Lambert, [Tesla releases some of its software to comply with open source licences](https://electrek.co/2018/05/19/tesla-releases-softwar-open-source-licences/), Electrek, May 19, 2018, covers the kernel for its Autopilot boards and Model S/X infotainment system.
+
+[^car-dashboards]: Eric Brown, [Linux Rolls Out to Most Toyota and Lexus Vehicles in North America](https://www.linux.com/training-tutorials/linux-rolls-out-toyota-and-lexus-vehicles/), Linux.com, June 29, 2017: Toyota's infotainment system runs on Automotive Grade Linux, starting with the 2018 Camry. Android Automotive, which is built on the Linux kernel, runs the dashboards in cars from [dozens of brands](https://en.wikipedia.org/wiki/Android_Automotive), among them GM, Ford, Honda and Volvo (Wikipedia).
+
+[^starlink]: Jeffrey Hill, [SpaceX Software Lead Reveals Starlink Details in Reddit AMA](https://www.satellitetoday.com/technology/2020/06/08/spacex-software-lead-reveals-starlink-details-in-reddit-ama/), Via Satellite, June 8, 2020. Each launch of 60 satellites carried "more than 4,000 Linux computers."
+
+[^top500]: TOP500, [Operating system family: Linux](https://www.top500.org/statistics/details/osfam/1/). All 500 systems on the June 2026 list run Linux.
+
+[^embedded]: Eclipse Foundation, [2024 IoT & Embedded Developer Survey](https://newsroom.eclipse.org/node/41237), December 3, 2024. Linux (46%) and FreeRTOS (29%), both open source, are the operating systems embedded developers use most. The [Matter smart-home standard's SDK](https://github.com/project-chip/connectedhomeip) is open source too.
+
+[^oss-funding]: Sam Boysel, Frank Nagle, Manuel Hoffmann, et al., [2024 Open Source Software Funding Report](https://opensourcefundingsurvey2024.com/), GitHub, the Linux Foundation and the Laboratory for Innovation Science at Harvard, November 2024. Organizations worldwide put over $7.7 billion a year into open source, 86% of it as employees' time.
+
+[^rfc]: Wikipedia, [Request for Comments](https://en.wikipedia.org/wiki/Request_for_Comments): the series of documents, begun in 1969, in which the internet's protocols are proposed, discussed and published.
+
+[^dpor-jlarc]: Joint Legislative Audit and Review Commission, [Operations and Performance of the Department of Professional and Occupational Regulation](https://jlarc.virginia.gov/2018-dpor.asp), 2018. The licensing system "does not allow DPOR to offer basic, user-friendly online services." The department's [own replacement plan](https://rga.lis.virginia.gov/Published/2019/RD495/PDF) (2019) describes applications involving "reams of paper documentation."
+
+[^dpor-replacements]: Virginia IT Agency, [DPOR IT Strategic Plan, FY2024–26](https://www.vita.virginia.gov/media/vitavirginiagov/it-governance/agency-it-strategic-plans/2024-2026/ITSP_FY24-26_222_summary.pdf), 2023: a replacement approved in 2021 was suspended in early 2022. The second, EPICx, was estimated at $11.3 million and suspended in June 2025 ([VITA IT Projects Status Report](https://www.vita.virginia.gov/media/vitavirginiagov/it-governance/quarterly-it-project-status-reports/pdf/COV-August-2025-ITProjectStatusReport.pdf), August 2025), and DPOR has since [discontinued it](https://www.dpor.virginia.gov/EPICx).
+
+[^parkmobile]: ParkMobile, [EasyPark Group Completes Acquisition of ParkMobile](https://parkmobile.io/about-us/newsroom/articles/easypark-group-completes-acquisition-of-parkmobile), June 1, 2021. At the time, ParkMobile had 25 million users and was in over 450 cities, "including eight of the top ten." Its new owner, EasyPark Group, is backed by the private equity firms Verdane Capital and Vitruvian Partners.
+
+[^parkmobile-go]: ParkMobile, [ParkMobile Go](https://parkmobile.io/parking/parkmobile-go): $5.99 a month to skip the service fee on each parking session, which ParkMobile says averages $0.50, "or about 15% of the parking cost."
+
+[^enshittification]: Cory Doctorow, [The 'Enshittification' of TikTok](https://www.wired.com/story/tiktok-platforms-cory-doctorow/), Wired, January 23, 2023, first posted on his blog, [Pluralistic](https://pluralistic.net/2023/01/21/potemkin-ai/), two days earlier: "Here is how platforms die: first, they are good to their users."
+
+[^state-digital-services]: Office of the Governor of Virginia, [Governor Spanberger Appoints Virginia Digital Service Director](https://www.governor.virginia.gov/newsroom/news-releases/2026/september-releases/name-1123308-en.html), September 8, 2026. Georgetown's Beeck Center [tracks 44 digital service teams](https://digitalgovernmenthub.org/publications/dsn-dst-tracker/) across federal, state and local government.
+
+[^nyc-pit]: New York City Office of the Mayor, [Mayor Mamdani Launches "Public Interest Technology (PIT) Crew" to Rapidly Build Digital Solutions to Public Problems](https://www.nyc.gov/mayors-office/news/2026/07/transcript--mayor-mamdani-launches--public-interest-technology--), July 13, 2026.
+
+[^gao-legacy]: U.S. Government Accountability Office, [Information Technology: Agencies Need to Plan for Modernizing Critical Decades-Old Legacy Systems](https://www.gao.gov/products/gao-25-107795), GAO-25-107795, July 2025. Federal agencies typically report spending about 80% of their IT budgets on operating and maintaining existing systems.
+
+[^hospital-fax]: Assistant Secretary for Technology Policy/ONC, [Methods Used by Hospitals to Engage in Interoperable Exchange](https://healthit.gov/data/quickstats/methods-used-hospitals-engage-interoperable-exchange/), Health IT Quick Stat #70, February 2026. In 2025, 40% of US hospitals often sent patients' summary-of-care records by mail or fax.
+
+[^ehr-market]: KLAS Research, [US Acute Care EHR Market Share 2026](https://klasresearch.com/report/us-acute-care-ehr-market-share-2026/3956), May 2026, as [reported by HealthSystemCIO](https://healthsystemcio.com/2026/05/14/acute-care-ehr-market-share-2026/). Epic's software runs 43.7% of US acute care hospitals and 56.9% of their beds.
+
+[^polycentric]: Elinor Ostrom, [Beyond Markets and States: Polycentric Governance of Complex Economic Systems](https://www.nobelprize.org/prizes/economic-sciences/2009/ostrom/lecture/), Nobel Prize lecture, December 8, 2009, published in the [American Economic Review](https://www.aeaweb.org/articles?id=10.1257/aer.100.3.641) in June 2010: "'Polycentric' connotes many centers of decision making that are formally independent of each other."
+
+[^usds-18f]: The White House, [Delivering a Customer-Focused Government Through Smarter IT](https://obamawhitehouse.archives.gov/blog/2014/08/11/delivering-customer-focused-government-through-smarter-it), August 11, 2014: USDS launched as "a small team made up of our country's brightest digital talent" to work with agencies, alongside 18F, which the General Services Administration had started that March ([Wikipedia](https://en.wikipedia.org/wiki/18F)). USDS hired on "a tour-of-service model with a maximum term of four years," though most people served one or two ([USDS](https://web.archive.org/web/20211007000949/https://usds.gov/apply), 2021). The Trump administration renamed USDS the "United States DOGE Service" on January 20, 2025 ([Executive Order 14158](https://www.govinfo.gov/content/pkg/FR-2025-01-29/html/2025-02005.htm)), and eliminated 18F on March 1, 2025 (Natalie Alms, [GSA eliminates 18F](https://www.nextgov.com/people/2025/03/gsa-eliminates-18f/403400/), Nextgov/FCW).
+
+[^direct-file-team]: Internal Revenue Service, [IRS Direct File Pilot Program: Filing Season 2024 After Action Report](https://www.irs.gov/pub/irs-pdf/p5969.pdf), May 3, 2024. The IRS built Direct File with 29 people from USDS and a team from 18F, who "worked side by side in a team room at IRS headquarters." 90% of surveyed users rated their experience excellent or above average.
+
+[^first-os]: Robert L. Patrick, [Operating Systems at Conception](https://softwarepreservation.computerhistory.org/os/gm.html), Computer History Museum Software Preservation Group, 2008. The first was built by IBM 704 users at General Motors Research and North American Aviation and went into production in 1956; jobs run per hour "increased tenfold."
+
+[^user-innovation]: Eric von Hippel, [Democratizing Innovation](https://web.mit.edu/evhippel/www/democ1.htm), MIT Press, 2005, free online. See also his [Free Innovation](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/9382/9382.pdf?dl=1), MIT Press, 2017.
+
+[^direct-file]: Wikipedia, [IRS Direct File](https://en.wikipedia.org/wiki/IRS_Direct_File): piloted in 12 states in 2024, offered in 25 states in 2025, and halted that November.
+
+[^evergreen]: Wikipedia, [Evergreen (software)](https://en.wikipedia.org/wiki/Evergreen_(software)): the Georgia Public Library Service started building Evergreen in 2004 for PINES, its statewide public library network, which switched over on September 5, 2006. It now runs about 1,800 libraries, including statewide catalogs in Indiana, Michigan and South Carolina. Marshall Breeding, [Evergreen](https://journals.ala.org/index.php/ltr/article/view/6406), Library Technology Reports 53, no. 6 (2017): Equinox, the company the original developers founded, became a nonprofit in January 2017, and Georgia "shifted to mostly self-sufficient support for PINES in 2012."
+
+[^compact-connect]: [CompactConnect](https://compactconnect.org/): "The system is jointly owned by the compacts that use it." Development began in June 2024, and the code is [on GitHub](https://github.com/csg-org/CompactConnect) under the AGPL. U.S. Digital Response, which helped start the project, [estimates](https://www.usdigitalresponse.org/resources/building-compact-connect-revolutionizing-interstate-professional-licensing) that sharing one system saves about $1.1 million for each compact that would otherwise build its own. The Counseling Compact [went live](https://counselingcompact.gov/counseling-compact-will-go-live-in-arizona-and-minnesota) in Arizona and Minnesota on September 30, 2025.
+
+[^dhis2]: DHIS2, [About DHIS2](https://dhis2.org/about/): "used by 80+ low and middle-income countries (LMICs) as the government-wide system of record for health data," and in more than 100 countries counting NGO programs. It is developed by the HISP Centre at the University of Oslo and released under the BSD license.
+
+[^opendesk]: Stefan Krempl, [Open-Source Office OpenDesk: Zendis brings agentic AI and air-gap mode](https://www.heise.de/en/news/Open-Source-Office-OpenDesk-Zendis-brings-agentic-AI-and-air-gap-mode-11483450.html), heise online, October 10, 2026. ZenDiS, which runs openDesk, is owned by the German federal government, and "around 100,000 administrative workstations" use it. Its notes app is [Docs](https://www.opendesk.eu/en/blog/collaborative-software-solutions-public-sector), built jointly with France's digital agency, DINUM: "Instead of duplicating efforts, we're joining forces" (ZenDiS, July 17, 2025).
+
+[^x-road]: Wikipedia, [X-Road](https://en.wikipedia.org/wiki/X-Road): Estonia launched X-Road in 2001, and Estonia and Finland founded the Nordic Institute for Interoperability Solutions in June 2017 to develop it together. The [institute's members](https://www.niis.org/) now also include Iceland, Ukraine, Schleswig-Holstein, Québec, the Faroe Islands and Åland.
+
+[^notify]: Ross Ferguson, [The international reach of UK's Notify service](https://public.digital/2023/03/21/the-international-reach-of-uks-notify-service), Public Digital, March 21, 2023. The UK's Government Digital Service built Notify in 2015, and it has sent 6.7 billion messages for more than 7,000 services. Canada had its own copy running and tested "within a few days" in 2019, and 321 Canadian services had used it by 2023.
+
+[^vista]: Wikipedia, [VistA](https://en.wikipedia.org/wiki/VistA): work on the system began in 1977, and it is public domain software, available through the Freedom of Information Act. Edmund Billings, [If Physicians Prefer the VA's EHR, Why Is Adoption Outside the VA So Low?](https://hitconsultant.net/2014/07/24/physicians-prefer-the-vas-ehr), HIT Consultant, July 24, 2014: in Medscape's 2014 survey of 18,575 physicians, the VA's system was the highest rated, and Epic finished eighth in physician satisfaction.
+
+[^vista-versions]: U.S. Government Accountability Office, [Electronic Health Records: VA Needs to Identify and Report System Costs](https://www.gao.gov/products/gao-19-125), GAO-19-125, July 25, 2019. VA did not have a thorough understanding of the local customizations in "about 130 versions of VistA that support health care delivery at more than 1,500 sites."
+
+[^va-oracle]: Edward Graham, [VA completes 2026 EHR system deployments with final two site go-lives](https://www.nextgov.com/modernization/2026/10/va-completes-2026-ehr-system-deployments-final-two-site-go-lives/416823/), Nextgov/FCW, October 26, 2026. The VA chose Cerner, since bought by Oracle, in 2018, paused most deployments in April 2023, and restarted in 2026; it now aims to have the new system in every facility by 2031. At the first site, in Spokane, the VA's inspector general found that more than 11,000 orders had been routed to an "unknown queue" that Oracle Cerner never told staff about, leading to nearly 150 cases of patient harm (Adam Mazmanian, [Routing gap in VA health software led to patient harm, watchdog says](https://www.nextgov.com/modernization/2022/07/unknown-queue-va-health-software-led-patient-harm-watchdog-says/374502/), Nextgov/FCW, July 14, 2022).
+
+[^arpa-ui]: Larry Bafundo, [IT Modernization Strategy](https://www.dol.gov/agencies/eta/ui-modernization/2023-strategy), U.S. Department of Labor, May 3, 2023. The department called for "a new ecosystem built around open and modular solutions," including open-source components made "available for reuse by other states." Unemployment insurance is "jointly funded by the federal government and administered by states."
+
+[^arpa-clawback]: The Fiscal Responsibility Act of 2023 [rescinded $1 billion](https://www.dol.gov/sites/dolgov/files/ETA/advisories/UIPL/2023/UIPL%2010-23/CTS%2050267-UIPL%20ARPA%20Rescission%20-%20SIGNED_DATED_NUMBERED%207.13.23.pdf) of the $2 billion (U.S. Department of Labor, July 13, 2023). On May 22, 2025, the department terminated states' grants and took back the unspent money, saying they "no longer effectuate DOL's priorities for its grant funding." Twelve attorneys general and two governors [sued over it](https://oag.ca.gov/news/press-releases/attorney-general-bonta-files-lawsuit-against-trump-administration-terminating) on October 9, 2026 (California Attorney General).
+
+[^open-design]: Wikipedia, [Kerckhoffs's principle](https://en.wikipedia.org/wiki/Kerckhoffs%27s_principle): a cipher should stay secure even if everything about it but the key is public. See also [Linus's law](https://en.wikipedia.org/wiki/Linus%27s_law): "given enough eyeballs, all bugs are shallow."
+
+[^nist-crypto]: National Institute of Standards and Technology, [AES Development](https://csrc.nist.gov/projects/cryptographic-standards-and-guidelines/archived-crypto-projects/aes-development). The Advanced Encryption Standard was chosen in an open competition from 1997 to 2000, with candidates presented at public conferences. NIST picked its [post-quantum standards](https://csrc.nist.gov/projects/post-quantum-cryptography/post-quantum-cryptography-standardization) the same way.
+
+[^supply-chain]: Among them: the backdoor in [xz Utils](https://www.cisa.gov/news-events/alerts/2024/03/29/reported-supply-chain-compromise-affecting-xz-utils-data-compression-library-cve-2024-3094) (CISA, March 2024), the [Shai-Hulud worm in npm](https://www.cisa.gov/news-events/alerts/2025/09/23/widespread-supply-chain-compromise-impacting-npm-ecosystem) (CISA, September 2025), the [compromise of axios](https://www.cisa.gov/news-events/alerts/2026/04/20/supply-chain-compromise-impacts-axios-node-package-manager) (CISA, April 2026), and [PHP2Shell](https://www.php.net/archive/2026.php#2026-10-21-5), two critical flaws in PHP itself that let attackers run code on a server without logging in (PHP, October 2026), which [CISA confirmed were under attack](https://www.bleepingcomputer.com/news/security/cisa-confirms-php2shell-vulnerabilities-now-exploited-in-attacks/) five days after the fix shipped (BleepingComputer, October 2026). Vendor-run updates aren't immune either: for about 11 hours in October 2026, the paid Rank Math PRO WordPress plugin's own download and update channel served [a backdoored release](https://rankmath.com/kb/pro-3-0-123-security-incident/) (Rank Math, October 2026).
+
+[^incident-response]: The xz backdoor was [found and announced by a volunteer](https://www.openwall.com/lists/oss-security/2024/03/29/4) before it reached stable releases of major Linux distributions. When TanStack's npm packages were hijacked in 2026, the maintainers [caught it in about 20 minutes and pulled every bad version within two hours](https://tanstack.com/blog/npm-supply-chain-compromise-postmortem).
+
+[^log4j]: Martin Matishak, [First Cyber Safety Review Board report finds Log4j has become an 'endemic vulnerability'](https://therecord.media/first-cyber-safety-review-board-report-finds-log4j-has-become-an-endemic-vulnerability/), The Record, July 14, 2022. The Department of Homeland Security's board expected vulnerable copies of Log4j to linger in systems for a decade or more.
+
+[^edge-chromium]: Wikipedia, [Microsoft Edge](https://en.wikipedia.org/wiki/Microsoft_Edge): the Chromium-based version was released on January 15, 2020.
+
+[^chromium-share]: Google, [Announcing Supporters of Chromium-based Browsers](https://blog.google/chromium/announcing-supporters-of-chromium-based/), January 9, 2025: Google made over 100,000 commits to Chromium in 2024, about 94% of the total. Chromium-based browsers had about 78% of [worldwide browser use](https://gs.statcounter.com/browser-market-share) in October 2026 (StatCounter).
+
+[^manifest-v3]: Wikipedia, [Google Chrome § Manifest V3](https://en.wikipedia.org/wiki/Google_Chrome#Manifest_V3): the change limits the rules ad blockers can check, and stops their filter lists from updating independently of the extension. See also Daly Barnett, [Chrome Users Beware: Manifest V3 is Deceitful and Threatening](https://www.eff.org/deeplinks/2021/12/chrome-users-beware-manifest-v3-deceitful-and-threatening), Electronic Frontier Foundation, December 9, 2021.
+
+[^forks]: For example, [LibreOffice](https://en.wikipedia.org/wiki/LibreOffice) forked OpenOffice.org in 2010 over concerns about Oracle's management of the project, and [OpenTofu](https://en.wikipedia.org/wiki/OpenTofu) forked Terraform in 2023 after HashiCorp moved it off its open source license. When Redis did the same in 2024, the Linux Foundation forked it as [Valkey](https://en.wikipedia.org/wiki/Valkey), and a year later Redis went back to an open source license (Salvatore Sanfilippo, [Redis is open source again](https://antirez.com/news/151), May 1, 2025).
+
+[^energy-independence]: Seth Borenstein and Jennifer McDermott, [Some leaders see powerful argument for renewable energy as Iran war shakes markets](https://www.pbs.org/newshour/world/some-leaders-see-powerful-argument-for-renewable-energy-as-iran-war-shakes-energy-markets), Associated Press, March 9, 2026. See also Sam Meredith, [How the Strait of Hormuz standoff flipped the energy security debate](https://www.cnbc.com/2026/06/05/iran-war-strait-of-hormuz-renewables-oil-gas.html), CNBC, June 5, 2026.
+
+[^fable]: Anthropic, [Statement on the directive to suspend Fable 5 access](https://www.anthropic.com/news/fable-mythos-access), June 12, 2026. A US export-control order barred all foreign nationals from the models, and Anthropic, unable to check nationality in real time, disabled them for every customer worldwide. The order was lifted on June 30 and Fable 5 [came back on July 1](https://www.anthropic.com/news/redeploying-fable-5).
+
+[^sovereign-platforms]: Denmark's digitalization ministry is [moving from Microsoft Office to LibreOffice](https://therecord.media/denmark-digital-agency-microsoft-digital-independence) (The Record, June 2025); Schleswig-Holstein has [moved 40,000 mailboxes off Microsoft](https://www.theregister.com/2025/10/15/schleswig_holstein_open_source/) (The Register, October 2025); the ICC is [replacing Microsoft Office with openDesk](https://www.ejiltalk.org/justice-recoded-why-it-matters-that-the-international-criminal-court-embraced-open-source-software-and-ditched-microsoft/) (EJIL:Talk!, November 2025); France is [moving government workstations to Linux](https://presse.economie.gouv.fr/?p=174490) (April 2026); and the European Commission adopted an [EU Open Source Strategy](https://commission.europa.eu/news-and-media/news/commission-boosts-open-and-interoperable-digital-ecosystems-public-administrations-2026-06-03_en) to reduce dependence on non-EU providers (June 2026).
+
+[^gnu-linux]: Richard Stallman announced GNU, a free Unix-compatible system, on [September 27, 1983](https://www.gnu.org/gnu/initial-announcement.html). When Linus Torvalds announced Linux in [August 1991](https://en.wikipedia.org/wiki/History_of_Linux#The_creation_of_Linux), he had "ported bash(1.08) and gcc(1.40)," both GNU programs, to run on it. By December 2000, IBM was ready to [spend $1 billion on Linux](https://www.cnet.com/tech/tech-industry/ibm-to-spend-1-billion-on-linux-in-2001/) in a year, for everything from PCs to mainframes (CNET).
+
+[^zen]: Wikipedia, [Zen Browser](https://en.wikipedia.org/wiki/Zen_Browser): an open source, Firefox-based web browser.
+
+[^signal]: Kara Lee, [All Signals Point Up for App's Downloads and MAUs](https://sensortower.com/blog/all-signals-point-up-for-apps-downloads-and-maus), Sensor Tower, March 2025. Signal has been downloaded 218 million times since 2014.
+
+[^flow]: Wikipedia, [Flow (2024 film)](https://en.wikipedia.org/wiki/Flow_(2024_film)): animated in Blender, it won Best Animated Feature at the 97th Academy Awards.
+
+[^continuous-compliance]: FedRAMP, [FedRAMP 20x](https://www.fedramp.gov/20x/). The federal cloud authorization program is replacing yearly manual assessments with automated, continuously checked "Key Security Indicators," on the principle that security should be "continuously enforced, monitored, and reported—not staged for a point-in-time audit." It plans to stop accepting new certifications under the old process on June 11, 2027. The Department of Defense's [DevSecOps Continuous Authorization Implementation Guide](https://dodcio.defense.gov/Portals/0/Documents/Library/DoDCIO-ContinuousAuthorizationImplementationGuide.pdf) (2024) lets teams with an approved pipeline "continuously assess and deploy" new releases without a fresh authorization for each one ([MeriTalk](https://www.meritalk.com/articles/dod-cio-issues-devsecops-cato-guidance/), April 25, 2024).
+
+[^data-centers]: International Energy Agency, [Energy and AI](https://www.iea.org/reports/energy-and-ai), April 2025: data centers' electricity demand is set to more than double by 2030, to around 945 terawatt-hours. Data Center Watch counted [at least 75 projects worth about $130 billion](https://datacenterwatch.org/q1-2026) disrupted by local opposition in the first quarter of 2026 alone, over energy, water, land use and utility bills.
+
+[^ai-job-cuts]: Challenger, Gray & Christmas, [Job Cuts Report, September 2026](https://www.challengergray.com/wp-content/uploads/2026/10/Challenger-Report-September-2026.pdf), October 1, 2026. Employers cited AI for 120,136 US job cuts in 2026 through September, about 21% of all cuts and the most common reason given.
+
+[^tech-layoffs]: Challenger, Gray & Christmas, [Job Cuts Report, September 2026](https://www.challengergray.com/wp-content/uploads/2026/10/Challenger-Report-September-2026.pdf). US tech companies announced 165,925 job cuts in 2026 through September, up 54% from the same period in 2025, after [154,445 in all of 2025](https://www.challengergray.com/blog/2025-year-end-challenger-report-highest-q4-layoffs-since-2008-lowest-ytd-hiring-since-2010/).
+
+[^ai-mandates]: Annie Palmer, [Shopify CEO: Prove AI can't do jobs before asking for more headcount](https://www.cnbc.com/2025/04/07/shopify-ceo-prove-ai-cant-do-jobs-before-asking-for-more-headcount.html), CNBC, April 7, 2025. Julie Bort, [Coinbase CEO explains why he fired engineers who didn't try AI immediately](https://techcrunch.com/2025/08/22/coinbase-ceo-explains-why-he-fired-engineers-who-didnt-try-ai-immediately), TechCrunch, August 22, 2025. Joseph Cox, [Manifestos, Fear, and 'Loser Thinking': Inside Proton's AI Reckoning](https://www.404media.co/manifestos-fear-and-loser-thinking-inside-protons-ai-reckoning/), 404 Media, October 29, 2026.
+
+[^tc39]: [TC39](https://tc39.es/): delegates "meet every two months to discuss proposals." Agendas and notes are public in [tc39/agendas](https://github.com/tc39/agendas).
+
+[^teacher-evaluations]: Brian M. Stecher et al., [Improving Teaching Effectiveness: Final Report](https://www.rand.org/pubs/research_reports/RR2242.html), RAND Corporation and American Institutes for Research, 2018. The Gates Foundation's $575 million initiative, which tied teacher evaluations partly to student test-score growth, "did not achieve its goals for student achievement or graduation."
+
+[^free-basics]: Global Voices Advox, [Free Basics in Real Life](https://advox.globalvoices.org/wp-content/uploads/2017/08/FreeBasicsinRealLife_FINALJuly27.pdf), July 2017. Across six countries, Facebook's Free Basics "does not allow users to browse the open internet." India's telecom regulator [banned pricing data by content](https://trai.gov.in/sites/default/files/2024-09/Regulation_08022016_0.pdf) in 2016, which [shut Free Basics out of India](https://thenextweb.com/news/facebooks-free-basics-blocked-by-india-over-net-neutrality-rules).
+
+[^olpc]: Julián Cristia, Pablo Ibarrarán, Santiago Cueto, Ana Santiago and Eugenio Severín, [Technology and Child Development: Evidence from the One Laptop per Child Program](https://www.aeaweb.org/articles?id=10.1257/app.20150385), American Economic Journal: Applied Economics 9, no. 3 (2017). In Peru's rollout, "no evidence is found of effects on test scores in math and language."
+
