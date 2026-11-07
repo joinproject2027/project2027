@@ -1,0 +1,28 @@
+/* The email sign-up on a written page (SignUpForm): the field and the button as one bar, in the
+   hero's style. It sits in prose, so it sets its own type rather than taking the prose's. */
+.sign-up { margin-block: 1.2em 1.6em; max-width: 520px; }
+.sign-up-bar { display: flex; }
+.sign-up-bar input {
+  flex: 1; min-width: 0; min-height: 52px; padding: 0 16px; box-sizing: border-box;
+  /* 16px or more, or iOS zooms the page in when the field takes focus. */
+  font: 500 17px var(--body);
+  color: var(--ink); background: var(--bg);
+  border: 2px solid var(--ink); border-right: 0; border-radius: 0;
+}
+.sign-up-bar input::placeholder { color: var(--muted); opacity: 1; }
+.sign-up-bar button {
+  flex: none; min-height: 52px; padding: 0 22px; box-sizing: border-box;
+  font: 800 17px var(--body); white-space: nowrap;
+  color: var(--on-red); background: var(--red); border: 0; border-radius: 0;
+  cursor: pointer;
+}
+.sign-up-bar button:active { transform: translateY(1px); }
+.sign-up-bar button[aria-disabled="true"] { cursor: progress; }
+.sign-up-error { margin: 8px 0 0; font-size: 15px; font-weight: 600; color: var(--red-text); }
+.sign-up-thanks {
+  margin: 0; min-height: 52px; display: flex; align-items: center; gap: 10px;
+  font-size: 18px; font-weight: 700; color: var(--ink);
+}
+/* It only takes focus to keep the reader's place, so it needs no ring. */
+.sign-up-thanks:focus { outline: none; }
+.sign-up-thanks span { color: var(--red-text); }

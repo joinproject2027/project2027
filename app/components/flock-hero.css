@@ -7,7 +7,8 @@
    Everything here is scoped to the hero (.flock, or the page while it holds one), so none of it leaks
    onto other pages: in dev, Vite keeps a page's CSS loaded after you navigate away. */
 
-/* The hero fills the screen and doesn't scroll, except on narrow screens (below). */
+/* The hero fills the screen and doesn't scroll. On narrow screens it may, but only if the copy can't
+   fit at all (a phone on its side); otherwise it fits the screen too (below). */
 html:has(.flock),
 body:has(.flock) { height: 100%; }
 body:has(.flock) {
@@ -40,7 +41,7 @@ body:has(.flock) {
     gap: 24px;
     pointer-events: none;
   }
-  .page a, .page button, .page p, .page h1, .page .tune { pointer-events: auto; }
+  .page a, .page button, .page input, .page label, .page p, .page h1, .page .tune { pointer-events: auto; }
 
   .hero { flex: 1; min-height: 0; display: flex; align-items: flex-end; padding-inline: clamp(0px, 3vw, 48px); }
   .copy { position: relative; isolation: isolate; width: min(400px, 100%); display: flex; flex-direction: column; gap: 16px; }
@@ -70,9 +71,29 @@ body:has(.flock) {
   /* The headline's last words wrap as one, so the red word is never left on a line by itself. */
   h1 .keep { white-space: nowrap; }
   h1 em { font-style: normal; color: var(--red-text); }
-  /* The calls to action: Read the plan, then Join the flock. They stay side by side even once
-     Join's message gets long (the row can run a little past the copy), and stack on phones. */
-  .cta-row { display: flex; align-items: center; gap: 12px; margin-top: 4px; }
+  /* The calls to action, Read the plan and Join the flock, always on one line. Joining sends "you"
+     into the flock and opens Join out across the whole line, Read the plan shrinking away, into an
+     email field for updates, with a line above saying so. After that, the whole line is "You're in!
+     Now read the plan!" */
+  .cta-row { --cta-gap: 12px; display: flex; align-items: stretch; gap: var(--cta-gap); margin-top: 4px; }
+  .read {
+    flex: 0 1 auto;
+    transition: flex-grow 0.35s ease, flex-basis 0.35s ease, padding 0.35s ease, border-width 0.35s ease,
+      margin 0.35s ease, opacity 0.2s ease, visibility 0s linear 0s;
+  }
+  /* Read the plan making way. Its width animates from what it was (set inline in the component) down
+     to nothing, gap and all; then it's hidden, so it can't be reached or tabbed to. */
+  .read[data-gone] {
+    flex-grow: 0; min-width: 0; overflow: hidden;
+    padding-inline: 0; border-width: 0; margin-right: calc(-1 * var(--cta-gap));
+    opacity: 0; visibility: hidden;
+    transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0.35s;
+  }
+  /* Its basis is fixed at the button's width once it opens (in the component), so it grows into the
+     room Read the plan leaves. */
+  .join-slot { display: flex; flex: 0 1 auto; min-width: 0; transition: flex-grow 0.35s ease; }
+  .cta-row:not([data-state="idle"]) .join-slot { flex-grow: 1; }
+  .join-slot > * { flex: 1; min-width: 0; }
   .read, .join {
     display: inline-flex; align-items: center; justify-content: center; gap: 10px;
     min-height: 50px; padding: 0 20px; box-sizing: border-box;
@@ -83,17 +104,31 @@ body:has(.flock) {
   .read { color: var(--ink); background: var(--bg); border: 2px solid var(--ink); }
   .read:hover { color: var(--bg); background: var(--ink); }
   .join { color: var(--on-red); background: var(--red); border: 0; }
-  .join[data-state="idle"]:active { transform: translateY(1px); }
-  .join[data-state="joining"] { cursor: progress; }
-  .join[data-state="joined"] { cursor: default; }
-  /* Once "you" is in, the arrow nudges toward Read the plan a few times. */
-  .join .point {
-    display: inline-block;
-    --nudge-x: -5px; --nudge-y: 0px;
-    animation: flock-point 0.9s ease-in-out 4;
+  .join:active { transform: translateY(1px); }
+  /* The line above the buttons once you're in, with Skip at its end while the email field is open. */
+  .join-note { margin: 0; display: flex; align-items: baseline; gap: 12px; font-size: 16px; font-weight: 700; }
+  .join-note label, .join-note .signup-error { flex: 1; }
+  .signup-error { color: var(--red-text); }
+  .skip {
+    margin-left: auto; padding: 0; border: 0; background: none; cursor: pointer;
+    font: 600 15px var(--body); color: var(--muted);
+    text-decoration: underline; text-underline-offset: 3px;
   }
+  .skip:hover { color: var(--ink); }
+  /* The email field and its Sign up button, as one bar across the line. */
+  .signup { display: flex; }
+  .signup input[type="email"] {
+    flex: 1; min-width: 0; min-height: 50px; padding: 0 14px; box-sizing: border-box;
+    /* 16px, or iOS zooms the page in when the field takes focus. */
+    font: 500 16px var(--body);
+    color: var(--ink); background: var(--bg);
+    border: 2px solid var(--ink); border-right: 0; border-radius: 0;
+  }
+  .signup input[type="email"]::placeholder { color: var(--muted); opacity: 1; }
+  .signup .join { flex: none; }
+  .signup .join[aria-disabled="true"] { cursor: progress; }
   @media (prefers-reduced-motion: reduce) {
-    .join .point { animation: none; }
+    .read, .read[data-gone], .join-slot { transition: none; }
   }
 
   footer.bottom { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: flex-end; gap: 12px 24px; padding-inline: clamp(0px, 3vw, 48px); }
@@ -170,8 +205,10 @@ body:has(.flock) {
   .status { font-size: 11px; color: var(--muted); min-height: 14px; margin: 0; overflow-wrap: anywhere; }
 
   @media (max-width: 899px) {
+    /* The copy sits at the bottom, as on desktop, and the flock draws the picture in the room above it
+       (the simulation fits the picture between the header and the copy). The page grows past the
+       screen only if the copy can't fit on it at all. */
     .page { height: auto; min-height: 100%; }
-    .hero { align-items: flex-start; padding-top: 40vh; }
     /* Stay inside the 16px gutter, so the backdrop can't widen the page into a sideways scroll. */
     .copy::before { inset: -28px -16px; }
     .lede { font-size: 19px; }
@@ -181,14 +218,22 @@ body:has(.flock) {
     footer.bottom { justify-content: flex-start; }
     .shape-list { right: auto; left: 0; }
   }
-  /* Phones: the buttons stack, Read the plan on top, so the arrow turns to point up at it. */
-  @media (max-width: 559px) {
-    .cta-row { flex-direction: column; align-items: stretch; }
-    .join .point { rotate: 90deg; --nudge-x: 0px; --nudge-y: -5px; }
+  /* Short phone screens (most of them, once the browser's own bars are in): the copy tightens up, to
+     leave the picture more room. */
+  @media (max-width: 899px) and (max-height: 760px) {
+    .page { gap: 16px; padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px); }
+    .copy { gap: 12px; }
+    .lede { font-size: 17px; }
+    h1 { font-size: 32px; }
+    .read, .join, .signup input[type="email"] { min-height: 46px; }
   }
-}
-
-/* Keyframes can't sit inside a style rule, so the join arrow's nudge is out here. */
-@keyframes flock-point {
-  50% { translate: var(--nudge-x) var(--nudge-y); }
+  /* Phones: the two buttons share the width. */
+  @media (max-width: 559px) {
+    .read, .join-slot { flex-grow: 1; }
+  }
+  /* The narrowest phones: a little smaller, so both still fit on the line. */
+  @media (max-width: 374px) {
+    .cta-row { --cta-gap: 8px; }
+    .read, .join { padding-inline: 12px; font-size: 15px; }
+  }
 }

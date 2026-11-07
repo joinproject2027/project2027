@@ -282,9 +282,11 @@ type Box = [centerX: number, centerY: number, width: number, height: number];
 /** Screens this wide and up get the desktop layout (the CSS switches at the same width). */
 const DESKTOP_MIN = 900;
 /** For a picture's `keepAbove`: how far above the copy it stays (its backdrop reaches about 40px
-    up), and how close to the top of the screen it may go to make room. */
+    up), and how close to the top of the screen it may go to make room. On phones the whole picture
+    stays above the copy, and below the header. */
 const COPY_CLEARANCE = 36,
-  TOP_MARGIN = 16;
+  TOP_MARGIN = 16,
+  MOBILE_COPY_CLEARANCE = 24;
 
 /**
  * Where each picture sits: [center x, center y, width, height], each a fraction of the screen, so
@@ -533,7 +535,10 @@ export function startFlock(root: HTMLElement): Flock {
   if (!context || !youContext) return { stop: () => {}, join: () => Promise.resolve() };
   const ctx: CanvasRenderingContext2D = context,
     yctx: CanvasRenderingContext2D = youContext;
-  const joinBtn = $("#join");
+  // New birds fly out of the join button, or from the calls to action once it's gone (after you've
+  // joined, new birds can still come in, at #tune).
+  const ctaRow = $(".cta-row");
+  const spawnRect = () => (root.querySelector("#join") ?? ctaRow).getBoundingClientRect();
   const streamBtn = $<HTMLButtonElement>("#stream");
   const pauseBtn = $<HTMLButtonElement>("#pause");
   const statusEl = $("#status");
@@ -659,22 +664,24 @@ export function startFlock(root: HTMLElement): Flock {
       screens. Applied as they're drawn, so a resize resizes the whole flock. */
   let birdScale = 1;
   let layoutNow: "desktop" | "mobile" | undefined;
-  // Where a picture's `keepAbove` line would land below the copy's top (less some room for its
-  // backdrop), moves the picture up, as far as keeping its top on screen allows, then shrinks it.
+  // Where a picture's `keepAbove` line would land below `limit` (the copy's top, less some room for
+  // its backdrop), moves the picture up, as far as keeping its top at `top` allows, then shrinks it.
   // Takes and returns the picture's center y and scale.
-  function clearCopy(line: number, h: number, cy: number, s: number, copyTop: number): [number, number] {
-    const limit = copyTop - COPY_CLEARANCE;
+  function clearCopy(line: number, h: number, cy: number, s: number, limit: number, top: number): [number, number] {
     const lineAt = (c: number, k: number) => c + (line - h / 2) * k;
     if (lineAt(cy, s) <= limit) return [cy, s];
-    cy = Math.max(limit - (line - h / 2) * s, TOP_MARGIN + (h / 2) * s);
+    cy = Math.max(limit - (line - h / 2) * s, top + (h / 2) * s);
     if (lineAt(cy, s) <= limit) return [cy, s];
-    s = (limit - TOP_MARGIN) / line;
-    return [TOP_MARGIN + (h / 2) * s, s];
+    s = Math.max(limit - top, 0) / line;
+    return [top + (h / 2) * s, s];
   }
 
   function buildNetwork() {
     const layout = W >= DESKTOP_MIN ? "desktop" : "mobile";
-    const copyTop = layout === "desktop" ? root.querySelector(".copy")?.getBoundingClientRect().top : undefined;
+    const copyTop = root.querySelector(".copy")?.getBoundingClientRect().top;
+    // Phones anchor the copy to the bottom of the screen, so on a short one it rides up into the
+    // picture: there the whole picture moves up, between the header and the copy, and shrinks to fit.
+    const headerBottom = root.querySelector("header.top")?.getBoundingClientRect().bottom ?? 0;
     pics = (layout === "desktop" ? PICTURES : MOBILE_PICTURES).map((pic) => {
       const box = LAYOUT[pic.name][layout];
       const cx = W * box[0],
@@ -682,7 +689,20 @@ export function startFlock(root: HTMLElement): Flock {
         bH = H * box[3];
       let cy = H * box[1],
         s = Math.min(bW / pic.w, bH / pic.h) * pic.fill;
-      if (pic.keepAbove !== undefined && copyTop !== undefined) [cy, s] = clearCopy(pic.keepAbove, pic.h, cy, s, copyTop);
+      if (copyTop !== undefined) {
+        if (layout === "mobile") {
+          // Down to half size: past that, the picture is too small to read, so it may as well sit
+          // partly behind the copy.
+          const s0 = s;
+          [cy, s] = clearCopy(pic.h, pic.h, cy, s, copyTop - MOBILE_COPY_CLEARANCE, headerBottom + TOP_MARGIN);
+          if (s < s0 / 2) {
+            s = s0 / 2;
+            cy = headerBottom + TOP_MARGIN + (pic.h / 2) * s;
+          }
+        }
+        else if (pic.keepAbove !== undefined)
+          [cy, s] = clearCopy(pic.keepAbove, pic.h, cy, s, copyTop - COPY_CLEARANCE, TOP_MARGIN);
+      }
       const X = (x: number) => cx + (x - pic.w / 2) * s,
         Y = (y: number) => cy + (y - pic.h / 2) * s;
       const tours = pic.tours.map((pts): Tour => {
@@ -924,7 +944,7 @@ export function startFlock(root: HTMLElement): Flock {
 
   function spawnFromButton(isYou: boolean) {
     if (birds.length >= P.max && !isYou) return null;
-    const r = joinBtn.getBoundingClientRect();
+    const r = spawnRect();
     const x = r.right - 8 + gauss() * 4,
       y = r.top + r.height / 2 + gauss() * 6;
     const b = makeBird(x, y, 2.2 + rand() * 1.2, -0.4 - rand() * 1.4, isYou || rand() * 100 < P.redShare * 2.5, true);

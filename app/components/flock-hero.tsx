@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import type { Flock } from "~/lib/flock/simulation";
+import { SIGN_UP_URL, useSignUp } from "./sign-up";
 import { SiteHeader } from "./site-header";
 import "./flock-hero.css";
 
@@ -8,13 +9,41 @@ import "./flock-hero.css";
  * The landing hero: a flock of birds that forms the flag, the map of the US, the eagle, Lady
  * Justice and "We the People" behind the manifesto. The tuning panel shows at #tune.
  *
- * Joining sends "you" into the flock; once it's in, the join button points the reader on to the
- * plan, beside it.
+ * Joining sends "you" into the flock straight away, and the join button opens out across the whole
+ * line, Read the plan making way, into an email field for updates from Buttondown. Once you've
+ * signed up (or skipped it), the line becomes "You're in! Now read the plan!", a link to the plan.
  */
 export function FlockHero() {
   const rootRef = useRef<HTMLDivElement>(null);
   const flockRef = useRef<Flock | null>(null);
-  const [joinState, setJoinState] = useState<"idle" | "joining" | "joined">("idle");
+  const readRef = useRef<HTMLAnchorElement>(null);
+  const slotRef = useRef<HTMLDivElement>(null);
+  const nextRef = useRef<HTMLAnchorElement>(null);
+  const [open, setOpen] = useState(false);
+  const [skipped, setSkipped] = useState(false);
+  // Whether focus moves to "Now read the plan!" when it comes: only if it was on what it replaces.
+  const [focusNext, setFocusNext] = useState(false);
+  const { state: signUpState, failed, submit: signUp } = useSignUp(setFocusNext);
+  const joinState = !open
+    ? "idle"
+    : skipped || signUpState === "sent"
+      ? "done"
+      : signUpState === "sending"
+        ? "sending"
+        : "open";
+  // The widths Join and Read the plan had when Join opened. Join grows from its own width; Read the
+  // plan starts from its own and then (readGone) shrinks away, so the change animates
+  // (flock-hero.css).
+  const [slotBasis, setSlotBasis] = useState<number>();
+  const [readBasis, setReadBasis] = useState<number>();
+  const [readGone, setReadGone] = useState(false);
+  // The email field takes focus as it opens, except on a phone, where the keyboard would come up over
+  // the flock just as "you" flies in.
+  const [focusEmail, setFocusEmail] = useState(false);
+
+  useEffect(() => {
+    if (joinState === "done" && focusNext) nextRef.current?.focus();
+  }, [joinState, focusNext]);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -35,9 +64,27 @@ export function FlockHero() {
   }, []);
 
   const join = () => {
-    if (joinState !== "idle") return;
-    setJoinState("joining");
-    void (flockRef.current?.join() ?? Promise.resolve()).then(() => setJoinState("joined"));
+    if (open) return;
+    // "You" leaves from the button now, before it opens out.
+    void flockRef.current?.join();
+    setSlotBasis(slotRef.current?.getBoundingClientRect().width);
+    setReadBasis(readRef.current?.getBoundingClientRect().width);
+    setFocusEmail(!window.matchMedia("(pointer: coarse)").matches);
+    setOpen(true);
+  };
+
+  // Once Join opens, Read the plan goes: its width as a number is flushed to style first, so the
+  // shrink has something to animate from. (Flushed rather than waiting a frame, which never comes in
+  // a background tab.)
+  useLayoutEffect(() => {
+    if (!open || readGone) return;
+    void readRef.current?.offsetWidth;
+    setReadGone(true);
+  }, [open, readGone]);
+
+  const skip = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setFocusNext(event.currentTarget === document.activeElement);
+    setSkipped(true);
   };
 
   return (
@@ -88,37 +135,78 @@ export function FlockHero() {
                 starts <em>now.</em>
               </span>
             </h1>
-            <div className="cta-row">
-              <Link className="read" to="/plan" prefetch="intent">
+            {joinState === "done" && !skipped && <p className="join-note">Thanks! Check your inbox to confirm.</p>}
+            {(joinState === "open" || joinState === "sending") && (
+              <div className="join-note">
+                <label htmlFor="signup-email" className={failed ? "sr-only" : undefined}>
+                  You’re in! Get email updates:
+                </label>
+                {failed && (
+                  <span className="signup-error" id="signup-error">
+                    That didn’t go through. Try again?
+                  </span>
+                )}
+                <button type="button" className="skip" onClick={skip}>
+                  Skip
+                </button>
+              </div>
+            )}
+            <div className="cta-row" data-state={joinState}>
+              <Link
+                className="read"
+                to="/plan"
+                prefetch="intent"
+                ref={readRef}
+                data-gone={readGone || undefined}
+                style={readGone ? { flexBasis: 0 } : readBasis === undefined ? undefined : { flexBasis: readBasis }}
+              >
                 Read the plan
               </Link>
-              <button
-                type="button"
-                className="join"
+              {/* "You" flies out from here (#join). */}
+              <div
+                className="join-slot"
                 id="join"
-                onClick={join}
-                data-state={joinState}
-                aria-disabled={joinState !== "idle" || undefined}
+                ref={slotRef}
+                style={slotBasis === undefined ? undefined : { flexBasis: slotBasis }}
               >
                 {joinState === "idle" && (
-                  <>
+                  <button type="button" className="join" onClick={join}>
                     Join the flock <span aria-hidden="true">→</span>
-                  </>
+                  </button>
                 )}
-                {joinState === "joining" && "Joining the flock…"}
-                {joinState === "joined" && (
-                  <>
-                    {/* Points at Read the plan: left of it, or above it once the buttons stack. */}
-                    <span className="point" aria-hidden="true">
-                      ←
-                    </span>
+                {(joinState === "open" || joinState === "sending") && (
+                  <form className="signup" action={SIGN_UP_URL} method="post" onSubmit={(event) => void signUp(event)}>
+                    <input
+                      type="email"
+                      name="email"
+                      id="signup-email"
+                      required
+                      autoComplete="email"
+                      placeholder="Your email"
+                      autoFocus={focusEmail}
+                      readOnly={joinState === "sending"}
+                      aria-describedby={failed ? "signup-error" : undefined}
+                    />
+                    <input type="hidden" name="embed" value="1" />
+                    <button type="submit" className="join" aria-disabled={joinState === "sending" || undefined}>
+                      {joinState === "sending" ? "Signing up…" : "Sign up"}
+                    </button>
+                  </form>
+                )}
+                {joinState === "done" && (
+                  <Link className="join" to="/plan" prefetch="intent" ref={nextRef}>
                     You’re in! Now read the plan!
-                  </>
+                  </Link>
                 )}
-              </button>
+              </div>
               <p className="sr-only" role="status">
-                {joinState === "joining" && "Joining the flock."}
-                {joinState === "joined" && "You’re in! Now read the plan."}
+                {joinState === "open" &&
+                  (failed
+                    ? "That didn’t go through. Check your connection and try again."
+                    : "You’re in the flock! Enter your email for updates, or skip.")}
+                {joinState === "sending" && "Signing you up."}
+                {joinState === "done" &&
+                  (skipped ? "You’re in! Now read the plan!" : "Thanks! Check your inbox to confirm. Now read the plan!")}
               </p>
             </div>
           </div>
